@@ -73,6 +73,7 @@ export default AddAddress
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#FFFFFF',
+        marginTop: 20
     },
     textHead: {
         color: '#000000',

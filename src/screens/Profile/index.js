@@ -67,6 +67,20 @@ const Profile = ({ navigation }) => {
                             </CardItem>
                         </Card>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                        <Card transparent>
+                            <CardItem>
+                                <Body style={styles.card}>
+                                    <View>
+                                        <Text>Log Out</Text>
+                                        <Text note>Account setting</Text>
+                                    </View>
+                                    <Right />
+                                    <Icon name="angle-right" size={22} color="#8f8f8f" />
+                                </Body>
+                            </CardItem>
+                        </Card>
+                    </TouchableOpacity>
                 </View>
             </View>
         </>

@@ -94,6 +94,7 @@ export default CheckOut
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#FFFFFF',
+        marginTop: 20
     },
     textHead: {
         color: '#000000',

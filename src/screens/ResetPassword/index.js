@@ -17,7 +17,7 @@ const loginValidationSchema = yup.object().shape({
         .string()
         .email("Please enter valid email")
         .required('Email Address is Required'),
-    password: yup
+    comfirmPassword: yup
         .string()
         .min(8, ({ min }) => `Password must be at least ${min} characters`)
         .required('Password is required'),
@@ -65,7 +65,7 @@ class Login extends Component {
                 </View>
                 <Formik
                     validationSchema={loginValidationSchema}
-                    initialValues={{ email: '', password: '' }}
+                    initialValues={{ password: '' }}
                     onSubmit={values => console.log(values)}
                 >
                     {({
@@ -81,16 +81,16 @@ class Login extends Component {
                                     <CardItem>
                                         <Body>
                                             <TextInput
-                                                name="email"
-                                                placeholder="Email Address"
+                                                name="password"
+                                                placeholder="Password"
                                                 style={styles.textInput}
-                                                onChangeText={handleChange('email')}
-                                                onBlur={handleBlur('email')}
-                                                value={values.email}
-                                                keyboardType="email-address"
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                                secureTextEntry
                                             />
-                                            {errors.email &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.email}</Text>
+                                            {errors.password &&
+                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.password}</Text>
                                             }
                                         </Body>
                                     </CardItem>
@@ -107,8 +107,8 @@ class Login extends Component {
                                                 value={values.password}
                                                 secureTextEntry
                                             />
-                                            {errors.password &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.password}</Text>
+                                            {errors.comfirmPassword &&
+                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.comfirmPassword}</Text>
                                             }
                                         </Body>
                                     </CardItem>

@@ -1,12 +1,13 @@
 import { default as axios } from 'axios'
+import { API_URL } from '@env'
 
-const REACT_APP_BACKEND_URL = 'http://localhost:8180/'
-
-export default (token=false) => {
-    return axios.create({
-        baseURL: REACT_APP_BACKEND_URL,
-        headers: {
-          'Authorization': token?`Bearer ${token}`:undefined
-        }
-      })
+export default (token = null) => {
+  const headers = {}
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+  return axios.create({
+    baseURL: API_URL,
+    headers,
+  })
 }

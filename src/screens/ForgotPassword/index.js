@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Text, Alert, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Alert, TextInput, TouchableOpacity } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import {
     Button, Header, Left, Body,
-    Right, Card, CardItem,
-    Form, Item, Label
+    Right, Card, CardItem, Text
 } from 'native-base';
 import { loginAction } from '../../redux/actions/auth'
 
@@ -16,11 +15,7 @@ const loginValidationSchema = yup.object().shape({
     email: yup
         .string()
         .email("Please enter valid email")
-        .required('Email Address is Required'),
-    password: yup
-        .string()
-        .min(8, ({ min }) => `Password must be at least ${min} characters`)
-        .required('Password is required'),
+        .required('Email Address is Required')
 })
 
 class Login extends Component {
@@ -61,7 +56,7 @@ class Login extends Component {
                     </Header>
                 </View>
                 <View>
-                    <Text style={styles.text}>Login</Text>
+                    <Text style={styles.text}>Forgot Password</Text>
                 </View>
                 <Formik
                     validationSchema={loginValidationSchema}
@@ -77,6 +72,7 @@ class Login extends Component {
                         isValid,
                     }) => (
                             <View style={styles.register}>
+                                <Text style={styles.warning}>Please, Enter your email address. You will receive a link to creat a new password via email</Text>
                                 <Card transparent>
                                     <CardItem>
                                         <Body>
@@ -95,30 +91,6 @@ class Login extends Component {
                                         </Body>
                                     </CardItem>
                                 </Card>
-                                <Card transparent>
-                                    <CardItem>
-                                        <Body>
-                                            <TextInput
-                                                name="password"
-                                                placeholder="Password"
-                                                style={styles.textInput}
-                                                onChangeText={handleChange('password')}
-                                                onBlur={handleBlur('password')}
-                                                value={values.password}
-                                                secureTextEntry
-                                            />
-                                            {errors.password &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.password}</Text>
-                                            }
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                                    <Text style={styles.textLogin}>
-                                        Forgot your password
-                                    <Icon name="long-arrow-right" size={15} color="green" />
-                                    </Text>
-                                </TouchableOpacity>
                                 <Button
                                     style={styles.btnLogin}
                                     onPress={handleSubmit}
@@ -167,5 +139,9 @@ const styles = StyleSheet.create({
     },
     btntext: {
         color: "#FFFFFF",
+    },
+    warning:{
+        fontSize: 17,
+        marginBottom: 15
     }
 })

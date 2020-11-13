@@ -48,6 +48,24 @@ const Shop = ({navigation}) => {
                         </Body>
                     </CardItem>
                 </Card>
+                <Card  style={styles.card}>
+                    <CardItem style={styles.card}>
+                        <Body style={styles.cardCategory}>
+                            <Text style={styles.label}>New</Text>
+                            <Right/>
+                            <Image style={styles.image} source={photo} />
+                        </Body>
+                    </CardItem>
+                </Card>
+                <Card  style={styles.card}>
+                    <CardItem style={styles.card}>
+                        <Body style={styles.cardCategory}>
+                            <Text style={styles.label}>New</Text>
+                            <Right/>
+                            <Image style={styles.image} source={photo} />
+                        </Body>
+                    </CardItem>
+                </Card>
             </View>
         </>
     )
