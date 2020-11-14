@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { Text, Header, Left, Body, Right, Button, Title, Card, CardItem, Item } from 'native-base';
+import ActionSheet from "react-native-actions-sheet";
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import photo from '../../assets/images/photo.png'
 
-const Catalog = ({navigation}) => {
+const actionSheetRef = createRef();
+
+const Catalog = ({ navigation }) => {
     return (
         <>
             <Header style={styles.header} noLeft>
                 <Button transparent>
-                    <Icon name='angle-left' size={30}  onPress={()=>navigation.goBack()}/>
+                    <Icon name='angle-left' size={30} onPress={() => navigation.goBack()} />
                 </Button>
                 <Body>
                     <Title style={styles.text}>Women's Top</Title>
@@ -20,15 +23,27 @@ const Catalog = ({navigation}) => {
                 </Button>
             </Header>
             <View style={styles.menu}>
-                <Text>Filter</Text>
-                <Text>Sort</Text>
-                <Text>Menu</Text>
+                <TouchableOpacity style={styles.filter}>
+                    <Icon name="filter" size={20} />
+                    <Text note style={styles.filterTxt}>Filters</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.sort}
+                    onPress={() => {
+                        actionSheetRef.current?.setModalVisible();
+                    }}>
+                    <Icon name="sort" size={20} />
+                    <Text note style={styles.sortTxt}>Sort</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Icon name="th-list" size={20} />
+                </TouchableOpacity>
             </View>
             <ScrollView>
                 <View style={styles.parent}>
                     <View style={styles.CardProduct}>
-                        <Card style={styles.cardItem} transparent>
-                            <CardItem>
+                        <Card transparent>
+                            <CardItem style={styles.cardItem}>
                                 <Body>
                                     <Image source={photo} />
                                     <Text>Bintang</Text>
@@ -38,8 +53,8 @@ const Catalog = ({navigation}) => {
                                 </Body>
                             </CardItem>
                         </Card>
-                        <Card style={styles.cardItem} transparent>
-                            <CardItem>
+                        <Card transparent>
+                            <CardItem style={styles.cardItem}>
                                 <Body>
                                     <Image source={photo} />
                                     <Text>Bintang</Text>
@@ -51,8 +66,8 @@ const Catalog = ({navigation}) => {
                         </Card>
                     </View>
                     <View style={styles.CardProduct}>
-                        <Card style={styles.cardItem} transparent>
-                            <CardItem>
+                        <Card transparent>
+                            <CardItem style={styles.cardItem}>
                                 <Body>
                                     <Image source={photo} />
                                     <Text>Bintang</Text>
@@ -62,8 +77,8 @@ const Catalog = ({navigation}) => {
                                 </Body>
                             </CardItem>
                         </Card>
-                        <Card style={styles.cardItem} transparent>
-                            <CardItem>
+                        <Card transparent>
+                            <CardItem style={styles.cardItem}>
                                 <Body>
                                     <Image source={photo} />
                                     <Text>Bintang</Text>
@@ -76,6 +91,37 @@ const Catalog = ({navigation}) => {
                     </View>
                 </View>
             </ScrollView>
+            <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
+                <View style={styles.border}></View>
+                <View>
+                    <Text style={styles.sortBy}>Sort By</Text>
+                    <TouchableOpacity
+                        style={styles.btnSort}
+                        block>
+                        <Text style={styles.btntext}>Poppular</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnSort}
+                        block>
+                        <Text style={styles.btntext}>Newest</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnSort}
+                        block>
+                        <Text style={styles.btntext}>Custtommer Review</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnSort}
+                        block>
+                        <Text style={styles.btntext}>Price: Lowes to High</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnSort}
+                        block>
+                        <Text style={styles.btntext}>Price: Hight to Lowes</Text>
+                    </TouchableOpacity>
+                </View>
+            </ActionSheet>
         </>
     )
 }
@@ -90,17 +136,58 @@ const styles = StyleSheet.create({
         color: '#000000',
         paddingLeft: 90,
     },
-    menu:{
-        flexDirection: 'row',
-        backgroundColor: '#FFFFFF'
-    },
     parent: {
-        padding: 10,
+        backgroundColor: '#fafafa'
+    },
+    menu: {
+        flexDirection: 'row',
+        backgroundColor: '#FFFFFF',
+        padding: 15
     },
     cardItem: {
-        width: 180,
+        width: 175,
+        backgroundColor: '#fafafa'
     },
-    CardProduct:{
+    CardProduct: {
         flexDirection: 'row'
+    },
+    filter: {
+        flexDirection: 'row',
+        marginLeft: 10
+    },
+    sort: {
+        flexDirection: 'row',
+        marginLeft: 70,
+        marginRight: 130
+    },
+    filterTxt: {
+        marginLeft: 5,
+        fontSize: 15
+    },
+    sortTxt: {
+        marginLeft: 5,
+        fontSize: 15
+    },
+    border: {
+        borderBottomWidth: 5,
+        width: 70,
+        marginTop: 20,
+        marginLeft: 140,
+        marginBottom: 10,
+        borderRadius: 50,
+        borderColor: '#e8e8e8'
+    },
+    sortBy: {
+        fontSize: 20,
+        paddingLeft: 145
+    },
+    btnSort: {
+        marginTop: 5,
+        height: 45,
+        justifyContent: 'center',
+        paddingLeft: 10
+    },
+    btntext: {
+        color: "#000000"
     }
 })

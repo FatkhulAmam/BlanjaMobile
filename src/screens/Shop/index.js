@@ -42,7 +42,7 @@ class Shop extends React.Component {
             <>
                 <Header style={styles.header} transparent>
                     <Left>
-                        <Button transparent onPress={() => navigation.goBack()}>
+                        <Button transparent onPress={() => this.props.navigation.goBack()}>
                             <Icon name='angle-left' size={30} />
                         </Button>
                     </Left>
@@ -57,6 +57,7 @@ class Shop extends React.Component {
                 </Header>
                 <View style={styles.parent}>
                     <Button
+                        onPress={()=>this.props.navigation.navigate('Catalog')}
                         style={styles.btnAll}
                         block>
                         <Text style={styles.btntext}>VIEW ALL ITEM</Text>
@@ -65,6 +66,7 @@ class Shop extends React.Component {
                     <View>
                         <FlatList
                             data={this.state.data}
+                            keyExtractor={(item, index) => index.toString()} 
                             renderItem={({ item, index }) => (
                                 <Item category={item.category} />
                             )}
