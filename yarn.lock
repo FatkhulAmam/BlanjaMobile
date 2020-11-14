@@ -6220,6 +6220,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-native-actions-sheet@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.3.5.tgz#7e91a7a5598e396a7ea3de223291a94a0fcb5b32"
+  integrity sha512-m777kTyNLADV3hF0wCT43LTWeIPS4ZHC5Gd5+8WQ6OD1u6U44AXpmYXpBfn6ji7dq70a3Is+Dh9SkzmmVK++JQ==
+
 react-native-dotenv@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.4.2.tgz#231071a1c3a9c29d96e6221b80d2cef6d9be39b7"

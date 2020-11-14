@@ -32,6 +32,7 @@ import ChangeAddress from '../screens/ChangeAddress'
 import CheckOut from '../screens/CheckOut'
 import Catalog from '../screens/Catalog'
 import ForgotPassword from '../screens/ForgotPassword'
+import Trial from '../screens/Trial'
 
 const MainApp = () => {
     return (
@@ -54,18 +55,18 @@ class Router extends React.Component {
                         <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
                         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
                         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}} />
+                            <Stack.Screen name="MyOrder" component={MyOrder} options={{ headerShown: false }} />
+                            <Stack.Screen name="Setting" component={Setting} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 ) : (
                         <Stack.Navigator>
                             <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
                             <Stack.Screen name="DetailProduct" component={DetailProduct} options={{ headerShown: false }} />
-                            <Stack.Screen name="MyOrder" component={MyOrder} options={{ headerShown: false }} />
                             <Stack.Screen name="ShippingAddress" component={ShippingAddress} options={{ headerShown: false }} />
-                            <Stack.Screen name="Setting" component={Setting} options={{ headerShown: false }} />
                             <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
                             <Stack.Screen name="Success" component={Success} options={{ headerShown: false }} />
                             <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+                            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
                             <Stack.Screen name="AddAddress" component={AddAddress} options={{ headerShown: false }} />
                             <Stack.Screen name="ChangeAddress" component={ChangeAddress} options={{ headerShown: false }} />
                             <Stack.Screen name="CheckOut" component={CheckOut} options={{ headerShown: false }} />

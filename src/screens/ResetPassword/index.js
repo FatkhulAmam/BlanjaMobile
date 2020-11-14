@@ -167,5 +167,8 @@ const styles = StyleSheet.create({
     },
     btntext: {
         color: "#FFFFFF",
+    },
+    textInput:{
+        width: 300
     }
 })

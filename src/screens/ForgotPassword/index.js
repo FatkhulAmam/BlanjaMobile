@@ -143,5 +143,8 @@ const styles = StyleSheet.create({
     warning:{
         fontSize: 17,
         marginBottom: 15
+    },
+    textInput:{
+        width: 300
     }
 })

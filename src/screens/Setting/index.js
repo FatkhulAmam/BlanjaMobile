@@ -1,10 +1,27 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, Switch } from 'react-native'
+import React, { useState, createRef } from 'react'
+import { StyleSheet, View, ScrollView, Switch, TextInput, TouchableOpacity } from 'react-native'
 import { Header, Left, Right, Button, Text, Card, CardItem, Body, Item, Input, Form, Label } from 'native-base';
+import Formik from 'formik'
+import * as yup from 'yup'
+import ActionSheet from "react-native-actions-sheet";
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+const actionSheetRef = createRef();
+
+const loginValidationSchema = yup.object().shape({
+    name: yup
+        .string()
+        .matches(/(\w.+\s).+/, 'Enter at least 2 names')
+        .required('Full name is required'),
+    password: yup
+        .string()
+        .min(8, ({ min }) => `Password must be at least ${min} characters`)
+        .required('Password is required'),
+})
+
 const MyOrder = ({ navigation }) => {
+
     const [isEnabledSales, setIsEnabledSales] = useState(false);
     const [isEnabledNew, setIsEnabledNew] = useState(false);
     const [isEnabledDeliver, setIsEnabledDeliver] = useState(false);
@@ -34,20 +51,20 @@ const MyOrder = ({ navigation }) => {
                         <Card>
                             <CardItem>
                                 <Body>
-                                    <Item floatingLabel>
-                                        <Label>Full name</Label>
-                                        <Input />
-                                    </Item>
+                                    <TextInput
+                                        placeholder="User name"
+                                        style={styles.textInput}
+                                    />
                                 </Body>
                             </CardItem>
                         </Card>
                         <Card>
                             <CardItem>
                                 <Body>
-                                    <Item floatingLabel>
-                                        <Label>Date of birth</Label>
-                                        <Input />
-                                    </Item>
+                                    <TextInput
+                                        placeholder="Birth day"
+                                        style={styles.textInput}
+                                    />
                                 </Body>
                             </CardItem>
                         </Card>
@@ -55,15 +72,21 @@ const MyOrder = ({ navigation }) => {
                     <View style={styles.labelPass}>
                         <Text style={styles.textPass}>Password</Text>
                         <Left />
-                        <Text style={styles.textPass} note>change</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                actionSheetRef.current?.setModalVisible();
+                            }}
+                        >
+                            <Text style={styles.textPass} note>change</Text>
+                        </TouchableOpacity>
                     </View>
                     <Card>
                         <CardItem>
                             <Body>
-                                <Item floatingLabel>
-                                    <Label>Password</Label>
-                                    <Input />
-                                </Item>
+                                <TextInput
+                                    placeholder="Password"
+                                    style={styles.textInput}
+                                />
                             </Body>
                         </CardItem>
                     </Card>
@@ -93,6 +116,48 @@ const MyOrder = ({ navigation }) => {
                     </View>
                 </View>
             </ScrollView>
+            <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
+                <View style={styles.border}></View>
+                <View>
+                    <Text style={styles.change}>Password Change</Text>
+                    <Card transparent>
+                        <CardItem>
+                            <Body>
+                                <TextInput
+                                    placeholder="Email"
+                                    style={styles.textInput}
+                                />
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    <Text style={styles.new} note>New Password</Text>
+                    <Card transparent>
+                        <CardItem>
+                            <Body>
+                                <TextInput
+                                    placeholder="password"
+                                    style={styles.textInput}
+                                />
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    <Card transparent>
+                        <CardItem>
+                            <Body>
+                                <TextInput
+                                    placeholder="Confirm Password"
+                                    style={styles.textInput}
+                                />
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    <Button
+                        style={styles.btnLogin}
+                        block>
+                        <Text style={styles.btntext}>LOGIN</Text>
+                    </Button>
+                </View>
+            </ActionSheet>
         </>
     )
 }
@@ -125,5 +190,39 @@ const styles = StyleSheet.create({
     },
     notif: {
         top: 20
+    },
+    textInput: {
+        width: 300,
+        fontSize: 18
+    },
+    actionSheet: {
+        flex: 1,
+        height: 1000
+    },
+    border: {
+        borderBottomWidth: 5,
+        width: 100,
+        marginTop: 20,
+        marginLeft: 125,
+        marginBottom: 20,
+        borderRadius: 50,
+        borderColor: '#e8e8e8'
+    },
+    change: {
+        fontSize: 20,
+        paddingLeft: 90
+    },
+    btnLogin: {
+        borderRadius: 25,
+        backgroundColor: 'green',
+        margin: 10,
+    },
+    btntext: {
+        color: "#FFFFFF",
+    },
+    new: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        left: 240
     }
 })
