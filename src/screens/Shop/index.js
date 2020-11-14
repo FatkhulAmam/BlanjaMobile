@@ -1,82 +1,94 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { Container, Header, Left, Body, Right, Button, Title, Card, CardItem } from 'native-base';
+import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
+import { Text, Header, Left, Body, Right, Button, Title, Card, CardItem } from 'native-base';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-import photo from '../../assets/images/photo.png'
 
-const Shop = ({navigation}) => {
-    return (
-        <>
-            <Header style={styles.header}>
-                <Left>
-                    <Button transparent onPress={()=>navigation.goBack()}>
-                        <Icon name='angle-left' size={30} />
-                    </Button>
-                </Left>
-                <Body>
-                    <Title style={styles.text}>Categories</Title>
-                </Body>
-                <Right>
-                    <Button transparent onPress={() => navigation.navigate("Search")}>
-                        <Icon name='search' size={22} />
-                    </Button>
-                </Right>
-            </Header>
-            <Card transparent>
-                <CardItem>
+class Item extends React.Component {
+    render() {
+        return (
+            <TouchableOpacity>
+                <View style={styles.renderParent}>
+                    <Text style={styles.renderText}>{this.props.category}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+}
+
+class Shop extends React.Component {
+    state = {
+        data: [
+            {
+                category: 'Tops'
+            },
+            {
+                category: 'Shirt'
+            },
+            {
+                category: 'Clotes'
+            },
+            {
+                category: 'Blazers'
+            },
+            {
+                category: 'Pants'
+            },
+        ]
+    }
+
+    render() {
+        return (
+            <>
+                <Header style={styles.header} transparent>
+                    <Left>
+                        <Button transparent onPress={() => navigation.goBack()}>
+                            <Icon name='angle-left' size={30} />
+                        </Button>
+                    </Left>
                     <Body>
-                        <Text></Text>
+                        <Title style={styles.text}>Categories</Title>
                     </Body>
-                </CardItem>
-            </Card>
-            <View style={styles.parent}>
-                <Card style={styles.card}>
-                    <CardItem style={styles.cardColor}>
-                        <Body style={styles.content}>
-                            <Text style={styles.saleText}>SUMMER SALES</Text>
-                            <Text style={{color: "#fff"}}>Up to 50% off</Text>
-                        </Body>
-                    </CardItem>
-                </Card>
-                <Card  style={styles.card}>
-                    <CardItem style={styles.card}>
-                        <Body style={styles.cardCategory}>
-                            <Text style={styles.label}>New</Text>
-                            <Right/>
-                            <Image style={styles.image} source={photo} />
-                        </Body>
-                    </CardItem>
-                </Card>
-                <Card  style={styles.card}>
-                    <CardItem style={styles.card}>
-                        <Body style={styles.cardCategory}>
-                            <Text style={styles.label}>New</Text>
-                            <Right/>
-                            <Image style={styles.image} source={photo} />
-                        </Body>
-                    </CardItem>
-                </Card>
-                <Card  style={styles.card}>
-                    <CardItem style={styles.card}>
-                        <Body style={styles.cardCategory}>
-                            <Text style={styles.label}>New</Text>
-                            <Right/>
-                            <Image style={styles.image} source={photo} />
-                        </Body>
-                    </CardItem>
-                </Card>
-            </View>
-        </>
-    )
+                    <Right>
+                        <Button transparent onPress={() => navigation.navigate("Search")}>
+                            <Icon name='search' size={22} />
+                        </Button>
+                    </Right>
+                </Header>
+                <View style={styles.parent}>
+                    <Button
+                        style={styles.btnAll}
+                        block>
+                        <Text style={styles.btntext}>VIEW ALL ITEM</Text>
+                    </Button>
+                    <Text style={styles.choose} note>Choose category</Text>
+                    <View>
+                        <FlatList
+                            data={this.state.data}
+                            renderItem={({ item, index }) => (
+                                <Item category={item.category} />
+                            )}
+                        />
+                    </View>
+                </View>
+            </>
+        )
+    }
 }
 
 export default Shop
 
 const styles = StyleSheet.create({
+    renderParent: {
+        padding: 20,
+        borderBottomWidth: 1,
+        borderColor: '#e8e8e8'
+    },
+    renderText: {
+        fontSize: 20
+    },
     header: {
         backgroundColor: '#FFFFFF',
-        marginTop: 20
     },
     text: {
         color: '#000000',
@@ -85,33 +97,15 @@ const styles = StyleSheet.create({
     parent: {
         margin: 10,
     },
-    card: {
-        borderRadius: 10,
+    btnAll: {
+        borderRadius: 25,
+        backgroundColor: 'green'
     },
-    cardColor:{
-        height: 100,
-        backgroundColor: '#00b500',
-        borderRadius: 10,
+    btntext: {
+        color: "#FFFFFF",
     },
-    content: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    saleText: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#FFF'
-    },
-    cardCategory: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    label: {
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
-    image: {
-        width: 75,
-        height: 75
+    choose: {
+        marginTop: 15,
+        fontSize: 18
     }
 })

@@ -24,106 +24,14 @@ const Home = ({ navigation }) => {
                         <Right />
                         <Text>View All</Text>
                     </View>
-                    <ScrollView horizontal>
-                        <TouchableOpacity onPress={() => navigation.navigate('DetailProduct')}>
-                            <Card transparent>
-                                <CardItem>
-                                    <Body>
-                                        <Image source={photo} />
-                                        <Text>Bintang</Text>
-                                        <Text note>Toko</Text>
-                                        <Text>Nama Barang</Text>
-                                        <Text>Rp. Harga</Text>
-                                    </Body>
-                                </CardItem>
-                            </Card>
-                        </TouchableOpacity>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                    </ScrollView>
+
                     <Text style={styles.bigText}>Popular</Text>
                     <View style={styles.tagText}>
                         <Text note>You never seen it before</Text>
                         <Right />
                         <Text>View All</Text>
                     </View>
-                    <ScrollView horizontal>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                    </ScrollView>
+                    
                 </View>
             </ScrollView>
         </>
