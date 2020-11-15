@@ -33,6 +33,7 @@ import CheckOut from '../screens/CheckOut'
 import Catalog from '../screens/Catalog'
 import ForgotPassword from '../screens/ForgotPassword'
 import Filter from '../screens/Filter'
+import RatingReview from '../screens/RatingReview'
 
 const MainApp = () => {
     return (
@@ -55,7 +56,7 @@ class Router extends React.Component {
                         <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
                         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
                         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                        <Stack.Screen name="Filter" component={Filter} options={{ headerShown: false }} />
+                            <Stack.Screen name="RatingReview" component={RatingReview} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 ) : (
                         <Stack.Navigator>
@@ -72,6 +73,7 @@ class Router extends React.Component {
                             <Stack.Screen name="ChangeAddress" component={ChangeAddress} options={{ headerShown: false }} />
                             <Stack.Screen name="CheckOut" component={CheckOut} options={{ headerShown: false }} />
                             <Stack.Screen name="Catalog" component={Catalog} options={{ headerShown: false }} />
+                            <Stack.Screen name="Filter" component={Filter} options={{ headerShown: false }} />c
                         </Stack.Navigator>
                     )
                 }
