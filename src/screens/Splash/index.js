@@ -7,7 +7,7 @@ import logo from '../../assets/images/logoSplash.png'
 const Splash = ({ navigation }) => {
     useEffect(()=>{
         setTimeout(() => {
-            navigation.replace("DetailProduct")
+            navigation.replace("SignUp")
         }, 1000);
     }, [navigation]);
 
