@@ -1,5 +1,5 @@
 const initialState = {
-    isLogin: false,
+    isRegister: false,
     isError: false,
     message: ''
 }
@@ -17,14 +17,14 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isError: true,
-                message: 'access denied'
+                message: 'register denied'
             }
         }
         case 'MAKE_ACCOUNT_FULFILLED':{
             return{
                 ...state,
                 isError: false,
-                isLogin: true,
+                isRegister: true,
                 isLoading:false,
                 message: 'register success'
             }

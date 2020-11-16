@@ -24,16 +24,6 @@ const loginValidationSchema = yup.object().shape({
 })
 
 class Login extends Component {
-    state = {
-        email: '',
-        password: '',
-        message: ''
-    }
-
-    login = () => {
-        const { email, password } = this.state
-        this.props.loginAction(email, password)
-    }
 
     showAlert = () => {
         const { message } = this.props.auth
@@ -66,7 +56,7 @@ class Login extends Component {
                 <Formik
                     validationSchema={loginValidationSchema}
                     initialValues={{ email: '', password: '' }}
-                    onSubmit={values => console.log(values)}
+                    onSubmit={values => this.props.loginAction(values.email, values.password)}
                 >
                     {({
                         handleChange,
@@ -168,7 +158,7 @@ const styles = StyleSheet.create({
     btntext: {
         color: "#FFFFFF",
     },
-    textInput:{
+    textInput: {
         width: 300
     }
 })

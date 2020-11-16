@@ -1,31 +1,25 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
-import * as yup from 'yup'
 import {
     Button, Header, Left, Body,
     Right, Card, CardItem,
     Form, Item, Input
 } from 'native-base';
 
-const loginValidationSchema = yup.object().shape({
-    name: yup
-    .string()
-    .matches(/(\w.+\s).+/, 'Enter at least 2 names')
-    .required('Name is required'),
-    email: yup
-        .string()
-        .email("Please enter valid email")
-        .required('Email Address is Required'),
-    password: yup
-        .string()
-        .min(8, ({ min }) => `Password must be at least ${min} characters`)
-        .required('Password is required'),
-})
-
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Validation from '../../helpers/formValidationSchema'
 
-const SignUp = ({ navigation }) => {
+const SignUp = () => {
+    const navigation = useNavigation();
+    const Register = useSelector(state => state.register)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        console.log('amam');
+    }, [])
+
     return (
         <View style={styles.parent}>
             <View>
@@ -42,7 +36,7 @@ const SignUp = ({ navigation }) => {
                 <Text style={styles.text}>Sign Up</Text>
             </View>
             <Formik
-                validationSchema={loginValidationSchema}
+                validationSchema={Validation}
                 initialValues={{name:'', email: '', password: '' }}
                 onSubmit={values => console.log(values)}
             >
