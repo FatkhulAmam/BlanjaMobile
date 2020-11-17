@@ -17,7 +17,6 @@ import BottomNavigation from '../components/BottomNavigation'
 import SignUp from "../screens/SignUp";
 import Login from "../screens/Login";
 import Home from '../screens/Home';
-import Splash from '../screens/Splash';
 import Shop from '../screens/Shop';
 import Bag from '../screens/Bag';
 import Favorites from '../screens/Favorites';
@@ -51,20 +50,19 @@ const MainApp = () => {
 }
 
 class Router extends React.Component {
-  componentDidMount() {
-    SplashScreen.hide();
-  }
+    componentDidMount() {
+        SplashScreen.hide();
+    }
 
     render() {
         return (
             <NavigationContainer>
                 {!this.props.auth.isLogin ? (
                     <Stack.Navigator>
-                        {/* <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} /> */}
                         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
                         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                            <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
-                            <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />
+                        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
+                        <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 ) : (
                         <Stack.Navigator initialRouteName="MainApp">

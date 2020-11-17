@@ -24,6 +24,9 @@ const loginValidationSchema = yup.object().shape({
 })
 
 class Login extends Component {
+    state = {
+        message: ''
+    }
 
     showAlert = () => {
         const { message } = this.props.auth

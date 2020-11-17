@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { Formik } from 'formik'
 import {
     Button, Header, Left, Body,
@@ -12,119 +11,139 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Validation from '../../helpers/formValidationSchema'
 
-const SignUp = () => {
-    const navigation = useNavigation();
-    const Register = useSelector(state => state.register)
-    const dispatch = useDispatch()
-    useEffect(() => {
-        console.log('amam');
-    }, [])
+import { registerAction } from '../../redux/actions/register'
 
-    return (
-        <View style={styles.parent}>
-            <View>
-                <Header transparent>
-                    <Left>
-                        <Button transparent>
-                            <Icon name='angle-left' size={30} />
-                        </Button>
-                    </Left>
-                    <Right />
-                </Header>
-            </View>
-            <View>
-                <Text style={styles.text}>Sign Up</Text>
-            </View>
-            <Formik
-                validationSchema={Validation}
-                initialValues={{name:'', email: '', password: '' }}
-                onSubmit={values => console.log(values)}
-            >
-                {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    errors,
-                    isValid,
-                }) => (
-                        <View style={styles.register}>
-                            <Form>
-                                <Card>
-                                    <CardItem>
-                                        <Body>
-                                        <TextInput
-                                                name="name"
-                                                placeholder="name"
-                                                style={styles.textInput}
-                                                onChangeText={handleChange('name')}
-                                                onBlur={handleBlur('name')}
-                                                value={values.name}
-                                            />
-                                            {errors.name &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.name}</Text>
-                                            }
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                                <Card>
-                                    <CardItem>
-                                        <Body>
-                                            <TextInput
-                                                name="email"
-                                                placeholder="Email Address"
-                                                style={styles.textInput}
-                                                onChangeText={handleChange('email')}
-                                                onBlur={handleBlur('email')}
-                                                value={values.email}
-                                                keyboardType="email-address"
-                                            />
-                                            {errors.email &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.email}</Text>
-                                            }
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                                <Card>
-                                    <CardItem>
-                                        <Body>
-                                            <TextInput
-                                                name="password"
-                                                placeholder="Password"
-                                                style={styles.textInput}
-                                                onChangeText={handleChange('password')}
-                                                onBlur={handleBlur('password')}
-                                                value={values.password}
-                                                secureTextEntry
-                                            />
-                                            {errors.password &&
-                                                <Text style={{ fontSize: 10, color: 'red' }}>{errors.password}</Text>
-                                            }
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                                <TouchableOpacity>
-                                    <Text style={styles.textLogin} onPress={() => navigation.navigate("Login")}>
-                                        Already have a account?
+class SignUp extends React.Component {
+    state = {
+        message: ''
+    }
+
+    showAlert = () => {
+        const { message } = this.props.registerData
+        if (message !== this.state.message) {
+            this.setState({ message })
+            Alert.alert(message)
+        }
+    }
+
+    async componentDidUpdate() {
+        await this.showAlert()
+        this.props.navigation.navigate('Login')
+    }
+
+    render() {
+        return (
+            <View style={styles.parent}>
+                <View>
+                    <Header transparent>
+                        <Left>
+                            <Button transparent>
+                                <Icon name='angle-left' size={30} />
+                            </Button>
+                        </Left>
+                        <Right />
+                    </Header>
+                </View>
+                <View>
+                    <Text style={styles.text}>Sign Up</Text>
+                </View>
+                <Formik
+                    validationSchema={Validation}
+                    initialValues={{ name: '', email: '', password: '' }}
+                    onSubmit={values => this.props.registerAction(values.name, values.email, values.password)}>
+                    {({
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        values,
+                        errors,
+                        isValid,
+                    }) => (
+                            <View style={styles.register}>
+                                <Form>
+                                    <Card>
+                                        <CardItem>
+                                            <Body>
+                                                <TextInput
+                                                    name="name"
+                                                    placeholder="name"
+                                                    style={styles.textInput}
+                                                    onChangeText={handleChange('name')}
+                                                    onBlur={handleBlur('name')}
+                                                    value={values.name}
+                                                />
+                                                {errors.name &&
+                                                    <Text style={{ fontSize: 10, color: 'red' }}>{errors.name}</Text>
+                                                }
+                                            </Body>
+                                        </CardItem>
+                                    </Card>
+                                    <Card>
+                                        <CardItem>
+                                            <Body>
+                                                <TextInput
+                                                    name="email"
+                                                    placeholder="Email Address"
+                                                    style={styles.textInput}
+                                                    onChangeText={handleChange('email')}
+                                                    onBlur={handleBlur('email')}
+                                                    value={values.email}
+                                                    keyboardType="email-address"
+                                                />
+                                                {errors.email &&
+                                                    <Text style={{ fontSize: 10, color: 'red' }}>{errors.email}</Text>
+                                                }
+                                            </Body>
+                                        </CardItem>
+                                    </Card>
+                                    <Card>
+                                        <CardItem>
+                                            <Body>
+                                                <TextInput
+                                                    name="password"
+                                                    placeholder="Password"
+                                                    style={styles.textInput}
+                                                    onChangeText={handleChange('password')}
+                                                    onBlur={handleBlur('password')}
+                                                    value={values.password}
+                                                    secureTextEntry
+                                                />
+                                                {errors.password &&
+                                                    <Text style={{ fontSize: 10, color: 'red' }}>{errors.password}</Text>
+                                                }
+                                            </Body>
+                                        </CardItem>
+                                    </Card>
+                                    <TouchableOpacity>
+                                        <Text style={styles.textLogin} onPress={() => this.props.navigation.navigate("Login")}>
+                                            Already have a account?
                                         <Icon name="long-arrow-right" size={15} color="green" />
-                                    </Text>
-                                </TouchableOpacity>
-                                <Button
-                                    style={styles.btnLogin}
-                                    onPress={handleSubmit}
-                                    disabled={!isValid}
-                                    block>
-                                    <Text style={styles.btntext}>SIGN UP</Text>
-                                </Button>
-                            </Form>
-                        </View>
-                    )}
-            </Formik>
-        </View>
-    )
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <Button
+                                        style={styles.btnLogin}
+                                        onPress={handleSubmit}
+                                        disabled={!isValid}
+                                        block>
+                                        <Text style={styles.btntext}>SIGN UP</Text>
+                                    </Button>
+                                </Form>
+                            </View>
+                        )}
+                </Formik>
+            </View>
+        )
+    }
 }
 
-export default SignUp
+const mapStateToProps = state => ({
+    registerData: state.register
+})
+const mapDispatchToProps = {
+    registerAction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
 
 const styles = StyleSheet.create({
     text: {
@@ -154,7 +173,7 @@ const styles = StyleSheet.create({
     btntext: {
         color: "#FFFFFF",
     },
-    textInput:{
+    textInput: {
         width: 300
     }
 })
