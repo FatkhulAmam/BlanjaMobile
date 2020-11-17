@@ -36,6 +36,13 @@ export default (state = initialState, action) => {
                 message: ''
             }
         }
+        case 'LOGOUT': {
+            return{
+                ...state,
+                isLogin: false,
+                token: ''
+            }
+        }
         default:{
             return state
         }

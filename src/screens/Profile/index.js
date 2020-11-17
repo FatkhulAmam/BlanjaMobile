@@ -1,11 +1,15 @@
-import React from 'react'
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { Header, Left, Body, Text, Right, Button, Card, CardItem } from 'native-base';
+import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import profile from '../../assets/images/user.png'
 
 const Profile = ({ navigation }) => {
+    const token = useSelector(state=>state.auth.token)
+    const dispatch = useDispatch()
+
     return (
         <>
             <Header style={styles.header} transparent>
@@ -67,13 +71,13 @@ const Profile = ({ navigation }) => {
                             </CardItem>
                         </Card>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <TouchableOpacity onPress={() => dispatch({ type: 'LOGOUT' })}>
                         <Card transparent>
                             <CardItem>
                                 <Body style={styles.card}>
                                     <View>
                                         <Text>Log Out</Text>
-                                        <Text note>Account setting</Text>
+                                        <Text note>Out the Account</Text>
                                     </View>
                                     <Right />
                                     <Icon name="angle-right" size={22} color="#8f8f8f" />
