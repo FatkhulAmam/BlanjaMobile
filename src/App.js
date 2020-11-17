@@ -1,20 +1,18 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
 import Router from './router'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
-//import store
 import store from './redux/store'
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Router />
+    <Provider store={store().store}>
+      <PersistGate loading={null} persistor={store().persistore}>
+        <Router />
+      </PersistGate>
     </Provider>
   )
 }
 
 export default App
-
-const styles = StyleSheet.create({})
