@@ -1,5 +1,5 @@
 import http from '../../helpers/http'
-import qs from 'querystring'
+import qs from 'qs'
 
 export default {
   getData: (data)=>({

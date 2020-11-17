@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { connect } from 'react-redux'
 
+import SplashScreen from 'react-native-splash-screen'
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -49,12 +51,16 @@ const MainApp = () => {
 }
 
 class Router extends React.Component {
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+
     render() {
         return (
             <NavigationContainer>
                 {!this.props.auth.isLogin ? (
-                    <Stack.Navigator initialRouteName="Splash">
-                        <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
+                    <Stack.Navigator>
+                        {/* <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} /> */}
                         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
                         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} />
