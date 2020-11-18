@@ -9,7 +9,8 @@ export default (state = initialState, action) => {
         case 'MAKE_ADDRESS_PENDING':{
             return{
                 ...state,
-                isLoading: true
+                isLoading: true,
+                message: 'pending'
             }
         }
         case 'MAKE_ADDRESS_REJECTED':{

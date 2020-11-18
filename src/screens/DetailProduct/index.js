@@ -1,19 +1,48 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native'
 import { Header, Left, Body, Title, Text, Card, Button, CardItem, Right } from 'native-base';
+import {useSelector} from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import runningImage from '../../assets/images/running.png'
 import photo from '../../assets/images/photo.png'
+class Item extends React.Component {
+    render() {
+        return (
+            <TouchableOpacity onPress={this.props.movePage}>
+                <View style={styles.renderParent}>
+                    <Card transparent>
+                        <CardItem>
+                            <Body style={styles.cardItem}>
+                                <Image source={photo} />
+                                <View style={styles.star}>
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                </View>
+                                <Text note>{this.props.category}</Text>
+                                <Text style={styles.renderText}>{this.props.name}</Text>
+                                <Text>{this.props.price}</Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+}
 
 const DetailProduct = ({ navigation }) => {
     const [count, setCount] = useState(0);
     const onPressInc = () => setCount(prevCount => prevCount + 1);
     const onPressDec = () => setCount(prevCount => prevCount - 1);
+    const product = useSelector(state => state.product)
 
     return (
         <>
-            <Header style={styles.header}>
+            <Header style={styles.header} transparent>
                 <Button transparent onPress={() => navigation.goBack()}>
                     <Icon name='angle-left' size={30} />
                 </Button>
@@ -66,7 +95,12 @@ const DetailProduct = ({ navigation }) => {
                         </View>
                     </View>
                     <View style={styles.footer}>
-                        <Button style={styles.btnCart} block onPress={() => navigation.navigate()}><Text>add to cart</Text></Button>
+                        <Button style={styles.btnCart} block onPress={() => navigation.navigate('Bag')}><Text>add to cart</Text></Button>
+                        <View>
+                            <TouchableOpacity style={styles.AddRatting} onPress={()=> navigation.navigate('RatingReview')}>
+                                <Text>Add Ratting</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View style={styles.border}></View>
                         <Text note>Sleeves wirh a small trill trim</Text>
                         <View style={styles.title}>
@@ -75,54 +109,18 @@ const DetailProduct = ({ navigation }) => {
                             <Text note>12 item</Text>
                         </View>
                     </View>
-                    <ScrollView horizontal>
-                        <TouchableOpacity onPress={() => navigation.navigate('DetailProduct')}>
-                            <Card transparent>
-                                <CardItem>
-                                    <Body>
-                                        <Image source={photo} />
-                                        <Text>Bintang</Text>
-                                        <Text note>Toko</Text>
-                                        <Text>Nama Barang</Text>
-                                        <Text>Rp. Harga</Text>
-                                    </Body>
-                                </CardItem>
-                            </Card>
-                        </TouchableOpacity>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card transparent>
-                            <CardItem>
-                                <Body>
-                                    <Image source={photo} />
-                                    <Text>Bintang</Text>
-                                    <Text note>Toko</Text>
-                                    <Text>Nama Barang</Text>
-                                    <Text>Rp. Harga</Text>
-                                </Body>
-                            </CardItem>
-                        </Card>
-                    </ScrollView>
+                    <FlatList
+                                horizontal
+                                data={product.data}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({ item, index }) => (
+                                    <Item 
+                                    date={item.input_date}
+                                    category={item.category_name}
+                                    name={item.name} price={item.price}
+                                    movePage={()=>navigation.navigate("DetailProduct")} />
+                                )}
+                            />
                 </View>
             </ScrollView>
         </>
@@ -132,6 +130,10 @@ const DetailProduct = ({ navigation }) => {
 export default DetailProduct
 
 const styles = StyleSheet.create({
+    renderParent: {
+        borderBottomWidth: 1,
+        borderColor: '#e8e8e8'
+    },
     header: {
         backgroundColor: '#FFFFFF',
     },
@@ -215,6 +217,15 @@ const styles = StyleSheet.create({
     like: {
         fontSize: 20,
         fontWeight: 'bold',
+    },
+    star:{
+        flexDirection: 'row',
+        marginTop: 5
+    },
+    AddRatting:{
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20
     }
 })
 

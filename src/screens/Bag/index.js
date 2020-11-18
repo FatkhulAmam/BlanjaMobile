@@ -16,7 +16,7 @@ const Bag = ({ navigation }) => {
         <>
             <Header style={styles.header} transparent>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={()=>navigation.navigate('Search')}>
                         <Icon name='search' size={22} />
                     </Button>
                 </Right>

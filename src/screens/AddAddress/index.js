@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ScrollView, TextInput } from 'react-native'
+import { StyleSheet, View, ScrollView, TextInput, Alert } from 'react-native'
 import { Header, Left, Body, Title, Text, Form, Button, Card, CardItem } from 'native-base';
 import { connect } from 'react-redux'
 import * as yup from 'yup'

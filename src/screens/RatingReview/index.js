@@ -3,12 +3,25 @@ import { StyleSheet, View, TouchableOpacity, ScrollView, CheckBox, Image } from 
 import { Header, Text, Button, Right, Card, Body, CardItem, Left, Textarea, Form } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ActionSheet from "react-native-actions-sheet";
+import ImagePicker from 'react-native-image-crop-picker'
 
 const actionSheetRef = createRef();
 import defaultAvatar from '../../assets/images/defaultAvatar.png'
 
-const Filter = () => {
+const Filter = ({navigation}) => {
     const [isSelected, setSelection] = useState(false);
+
+    const pickOpenCamera = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 500,
+            cropping: true,
+        }).then(image => {
+            setPhoto(image.path)
+            console.log(image);
+        });
+    }
+
     return (
         <>
             <Header style={styles.header} transparent>
@@ -118,7 +131,8 @@ const Filter = () => {
                         </Form>
                     </View>
                     <View style={styles.btnTakeCam}>
-                        <Button style={styles.btnCamera}>
+                        <Button style={styles.btnCamera} 
+                        onPress={pickOpenCamera}>
                             <Icon name='camera' size={25} color='#FFFFFF'/>
                         </Button>
                         <Text note>Add Your Photos</Text>

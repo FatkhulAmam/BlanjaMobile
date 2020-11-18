@@ -11,7 +11,7 @@ const actionSheetRef = createRef();
 const Catalog = ({ navigation }) => {
     return (
         <>
-            <Header style={styles.header} noLeft>
+            <Header style={styles.header} noLeft transparent>
                 <Button transparent>
                     <Icon name='angle-left' size={30} onPress={() => navigation.goBack()} />
                 </Button>
@@ -23,7 +23,7 @@ const Catalog = ({ navigation }) => {
                 </Button>
             </Header>
             <View style={styles.menu}>
-                <TouchableOpacity style={styles.filter}>
+                <TouchableOpacity style={styles.filter} onPress={()=>navigation.navigate('Filter')}>
                     <Icon name="filter" size={20} />
                     <Text note style={styles.filterTxt}>Filters</Text>
                 </TouchableOpacity>

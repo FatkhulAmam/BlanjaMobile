@@ -51,7 +51,7 @@ class Home extends React.Component {
                 <ScrollView>
                     <View style={styles.banner}>
                         <Image style={styles.image} source={BigBanner} />
-                        <Button style={styles.notifIcon} onPress={() => navigation.navigate("Notification")}>
+                        <Button style={styles.notifIcon} onPress={() => this.props.navigation.navigate("Notification")}>
                             <BellIcon />
                         </Button>
                         <Text style={styles.textBanner}>Fashion Sale</Text>

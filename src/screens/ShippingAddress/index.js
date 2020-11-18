@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View, TextInput, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity, FlatList, SafeAreaView } from 'react-native'
 import { Header, Left, Body, Title, Text, Right, Button, Card, CardItem } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -8,26 +8,28 @@ import { getAddressAction } from '../../redux/actions/getAddress'
 class Item extends React.Component {
     render() {
         return (
-            <View style={styles.renderParent}>
-                <Card style={styles.card}>
-                    <CardItem style={styles.cardItem}>
-                        <Body>
-                            <View style={styles.text}>
-                                <Text>{this.props.name}</Text>
-                                <Left />
-                                <TouchableOpacity onPress={this.props.movePage}>
-                                    <Text style={styles.change}>Change</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <Text>{this.props.home}, {this.props.city}</Text>
-                            </View>
-                            <View>
-                                <Text>{this.props.phone}, {this.props.address}</Text>
-                            </View>
-                        </Body>
-                    </CardItem>
-                </Card>
+            <View>
+                <View style={styles.renderParent}>
+                    <Card style={styles.card}>
+                        <CardItem style={styles.cardItem}>
+                            <Body>
+                                <View style={styles.text}>
+                                    <Text>{this.props.name}</Text>
+                                    <Left />
+                                    <TouchableOpacity onPress={this.props.movePage}>
+                                        <Text style={styles.change}>Change</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <Text>{this.props.home}, {this.props.city}</Text>
+                                </View>
+                                <View>
+                                    <Text>{this.props.phone}, {this.props.address}</Text>
+                                </View>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </View>
             </View>
         )
     }

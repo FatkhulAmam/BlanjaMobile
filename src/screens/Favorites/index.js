@@ -25,7 +25,8 @@ export default Favorites
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        marginTop: 20
     },
     text: {
         color: '#000000',

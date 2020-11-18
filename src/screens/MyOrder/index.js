@@ -14,7 +14,7 @@ const MyOrder = ({ navigation }) => {
                     </Button>
                 </Left>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={()=>navigation.navigate('Search')}>
                         <Icon name='search' size={22} />
                     </Button>
                 </Right>

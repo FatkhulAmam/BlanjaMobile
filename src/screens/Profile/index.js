@@ -46,25 +46,27 @@ const Profile = ({ navigation }) => {
         <>
             <Header style={styles.header} transparent>
                 <Right>
-                    <Button transparent>
+                    <Button transparent onPress={() => navigation.navigate('Search')}>
                         <Icon name='search' size={22} />
                     </Button>
                 </Right>
             </Header>
             <View style={styles.parent}>
                 <Text style={styles.tittle}>My Profile</Text>
-                    <View style={styles.userBio}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                actionSheetRef.current?.setModalVisible();
-                            }}>
-                            <Image style={styles.avatar} source={Photo ? { uri: Photo } : defaultAvatar} />
-                        </TouchableOpacity>
+                <View style={styles.userBio}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            actionSheetRef.current?.setModalVisible();
+                        }}>
+                        <Image style={styles.avatar} source={Photo ? { uri: Photo } : defaultAvatar} />
+                    </TouchableOpacity>
+                    {Object.keys(profile.data[0]).length && (
                         <View style={styles.identity}>
                             <Text style={styles.name}>{profile.data[0].user_name}</Text>
                             <Text note>{profile.data[0].email}</Text>
                         </View>
-                    </View>
+                    )}
+                </View>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('MyOrder')}>
                         <Card transparent>

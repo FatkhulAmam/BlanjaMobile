@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native'
 import { Header, Title, Body, Button, Text, CardItem, Card, Left } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const Filter = () => {
+const Filter = ({navigation}) => {
     return (
         <>
             <Header style={styles.header} noLeft>
@@ -64,8 +64,8 @@ const Filter = () => {
                 </Card>
             </ScrollView>
             <View style={styles.btnCheck}>
-                <Button block style={styles.check} onPress={()=>navigation.navigate("Success")}><Text>Discard</Text></Button>
-                <Button block style={styles.check} onPress={()=>navigation.navigate("Success")}><Text>Apply</Text></Button>
+                <Button block style={styles.check} onPress={()=>navigation.navigate("Success")}><Text style={styles.textBtn}>Discard</Text></Button>
+                <Button block style={styles.check} onPress={()=>navigation.navigate("Success")}><Text style={styles.textBtn}>Apply</Text></Button>
             </View>
         </>
     )
@@ -75,7 +75,8 @@ export default Filter
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        marginTop: 20
     },
     text: {
         color: '#000000',
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 20,
         marginLeft: 10,
-        borderRadius: 5
+        borderRadius: 5,
+        backgroundColor: 'green'
     },
     btnCat: {
         width: 100,
@@ -125,6 +127,10 @@ const styles = StyleSheet.create({
     check:{
         width: 160,
         borderRadius: 50,
-        marginLeft: 7
+        marginLeft: 7,
+        backgroundColor: 'green',
+    },
+    textBtn:{
+        color: '#ffffff'
     }
 })

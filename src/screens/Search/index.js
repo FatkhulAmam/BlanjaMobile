@@ -43,7 +43,7 @@ class Search extends React.Component {
         return (
             <>
                 <Header style={styles.header} transparent>
-                    <Button transparent onPress={() => navigation.goBack()}>
+                    <Button transparent onPress={() => this.props.navigation.goBack()}>
                         <Icon name='angle-left' size={30} />
                     </Button>
                     <Body>
