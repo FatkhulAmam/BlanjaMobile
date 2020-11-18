@@ -37,7 +37,7 @@ class Shop extends React.Component {
                         <Title style={styles.text}>Categories</Title>
                     </Body>
                     <Right>
-                        <Button transparent onPress={() => navigation.navigate("Search")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("Search")}>
                             <Icon name='search' size={22} />
                         </Button>
                     </Right>

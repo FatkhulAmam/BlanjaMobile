@@ -33,6 +33,7 @@ const Setting = ({ navigation }) => {
     const token = useSelector(state => state.auth.token)
     const profile = useSelector(state => state.profile)
     const dispatch = useDispatch()
+    const {Name, setName} = useState('')
 
     useEffect(() => {
         dispatch(getProfile(token))
@@ -48,7 +49,7 @@ const Setting = ({ navigation }) => {
                 </Left>
                 <Right>
                     <Button transparent>
-                        <Icon name='search' size={22} />
+                        <Text style={styles.info}>save</Text>
                     </Button>
                 </Right>
             </Header>
@@ -183,7 +184,8 @@ const styles = StyleSheet.create({
     info: {
         marginTop: 15,
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#000000'
     },
     tittle: {
         fontSize: 40,
