@@ -1,9 +1,47 @@
-import React from 'react'
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, View, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import { Header, Left, Body, Title, Text, Right, Button, Card, CardItem } from 'native-base';
+import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { getAddressAction } from '../../redux/actions/getAddress'
+
+class Item extends React.Component {
+    render() {
+        return (
+            <View style={styles.renderParent}>
+                <Card style={styles.card}>
+                    <CardItem style={styles.cardItem}>
+                        <Body>
+                            <View style={styles.text}>
+                                <Text>{this.props.name}</Text>
+                                <Left />
+                                <TouchableOpacity onPress={this.props.movePage}>
+                                    <Text style={styles.change}>Change</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text>{this.props.home}, {this.props.city}</Text>
+                            </View>
+                            <View>
+                                <Text>{this.props.phone}, {this.props.address}</Text>
+                            </View>
+                        </Body>
+                    </CardItem>
+                </Card>
+            </View>
+        )
+    }
+}
 
 const ShippingAddress = ({ navigation }) => {
+    const token = useSelector(state => state.auth.token)
+    const address = useSelector(state => state.address)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getAddressAction(token))
+        console.log(address.data);
+    }, [dispatch, token])
+
     return (
         <>
             <Header style={styles.header}>
@@ -24,28 +62,24 @@ const ShippingAddress = ({ navigation }) => {
                 <View>
                     <Text style={styles.textPass}>Shipping Address</Text>
                 </View>
-                <Card style={styles.card}>
-                    <CardItem style={styles.cardItem}>
-                        <Body>
-                            <View style={styles.text}>
-                                <Text>Jane Ane</Text>
-                                <Left />
-                                <TouchableOpacity onPress={()=>navigation.navigate("ChangeAddress")}>
-                                    <Text style={styles.change}>Change</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <Text>3 New Bridge cout</Text>
-                            </View>
-                            <View>
-                                <Text>Chino Hill, CA 154678, United State</Text>
-                            </View>
-                        </Body>
-                    </CardItem>
-                </Card>
-            <Button style={styles.btn} block transparent onPress={()=>{navigation.navigate("AddAddress")}}>
-                <Text style={{color: "#000000"}}>ADD NEW ADDRESS</Text>
-            </Button>
+                <View>
+                    <FlatList
+                        data={address.data}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <Item
+                                name={item.recipients_name}
+                                home={item.home}
+                                city={item.city}
+                                phone={item.recipients_phone}
+                                address={item.address}
+                                movePage={() => navigation.navigate("ChangeAddress")} />
+                        )}
+                    />
+                </View>
+                <Button style={styles.btn} block transparent onPress={() => { navigation.navigate("AddAddress") }}>
+                    <Text style={{ color: "#000000" }}>ADD NEW ADDRESS</Text>
+                </Button>
             </View>
         </>
     )
@@ -89,7 +123,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 5
     },
-    cardItem:{
+    cardItem: {
         borderRadius: 15,
     },
     tittle: {
@@ -103,9 +137,9 @@ const styles = StyleSheet.create({
     change: {
         color: "#bf000d"
     },
-    btn:{
+    btn: {
         marginTop: 10,
-        borderWidth:2,
+        borderWidth: 2,
         borderColor: "#000000",
         borderRadius: 50
     }

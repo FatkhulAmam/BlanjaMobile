@@ -15,11 +15,10 @@ const Profile = ({ navigation }) => {
     const token = useSelector(state => state.auth.token)
     const profile = useSelector(state => state.profile)
     const dispatch = useDispatch()
-    const [Photo, setPhoto] = useState(`${API_URL}${profile.data[0].photo}`)
+    const [Photo, setPhoto] = useState(`${API_URL}${profile.data.photo}`)
 
     useEffect(() => {
         dispatch(getProfile(token))
-        console.log(Photo);
     }, [dispatch, token])
 
     const choosePhotoGalery = () => {
@@ -29,7 +28,6 @@ const Profile = ({ navigation }) => {
             cropping: true
         }).then(Photo => {
             setPhoto(Photo.path)
-            console.log(Photo)
         });
     }
 
