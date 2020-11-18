@@ -9,6 +9,7 @@ import { API_URL } from '@env'
 
 const actionSheetRef = createRef();
 import { getProfile } from '../../redux/actions/profile'
+import defaultAvatar from '../../assets/images/defaultAvatar.png'
 
 const Profile = ({ navigation }) => {
     const token = useSelector(state => state.auth.token)
@@ -54,20 +55,18 @@ const Profile = ({ navigation }) => {
             </Header>
             <View style={styles.parent}>
                 <Text style={styles.tittle}>My Profile</Text>
-                {Object.keys(profile.data[0]).length && (
                     <View style={styles.userBio}>
                         <TouchableOpacity
                             onPress={() => {
                                 actionSheetRef.current?.setModalVisible();
                             }}>
-                            <Image style={styles.avatar} source={{ uri: Photo }} />
+                            <Image style={styles.avatar} source={Photo ? { uri: Photo } : defaultAvatar} />
                         </TouchableOpacity>
                         <View style={styles.identity}>
                             <Text style={styles.name}>{profile.data[0].user_name}</Text>
                             <Text note>{profile.data[0].email}</Text>
                         </View>
                     </View>
-                )}
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('MyOrder')}>
                         <Card transparent>

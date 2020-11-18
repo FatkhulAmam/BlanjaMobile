@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import ActionSheet from "react-native-actions-sheet";
 
 const actionSheetRef = createRef();
-import profile from '../../assets/images/user.png'
+import defaultAvatar from '../../assets/images/defaultAvatar.png'
 
 const Filter = () => {
     const [isSelected, setSelection] = useState(false);
@@ -58,7 +58,7 @@ const Filter = () => {
                     <CardItem>
                         <Body>
                             <View style={styles.review}>
-                                <Image style={styles.image} source={profile} />
+                                <Image style={styles.image} source={defaultAvatar} />
                                 <View style={styles.revTxt}>
                                     <Text style={styles.name}>name</Text>
                                     <View style={styles.startCard}>

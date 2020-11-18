@@ -74,6 +74,7 @@ const Setting = ({ navigation }) => {
                                     <Body>
                                         <TextInput
                                             value={profile.data[0].birth}
+                                            placeholder= "birth"
                                             style={styles.textInput}
                                         />
                                     </Body>

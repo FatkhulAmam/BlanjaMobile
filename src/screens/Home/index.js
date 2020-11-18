@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import { Text, Card, CardItem, Body, Button, Right } from 'native-base'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from 'react-redux'
 
 import BigBanner from '../../assets/images/BigBanner.png'
@@ -12,13 +13,19 @@ import { getNewProductAction } from '../../redux/actions/product'
 class Item extends React.Component {
     render() {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.props.movePage}>
                 <View style={styles.renderParent}>
                     <Card transparent>
                         <CardItem>
-                            <Body>
+                            <Body style={styles.cardItem}>
                                 <Image source={photo} />
-                                <Text>{this.props.date}</Text>
+                                <View style={styles.star}>
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                </View>
                                 <Text note>{this.props.category}</Text>
                                 <Text style={styles.renderText}>{this.props.name}</Text>
                                 <Text>{this.props.price}</Text>
@@ -62,7 +69,11 @@ class Home extends React.Component {
                                 data={data}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item, index }) => (
-                                    <Item date={item.input_date} category={item.category_name} name={item.name} price={item.price} />
+                                    <Item 
+                                    date={item.input_date}
+                                    category={item.category_name}
+                                    name={item.name} price={item.price}
+                                    movePage={()=>this.props.navigation.navigate("DetailProduct")} />
                                 )}
                             />
                         </View>
@@ -78,7 +89,11 @@ class Home extends React.Component {
                                 data={data}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item, index }) => (
-                                    <Item date={item.input_date} category={item.category_name} name={item.name} price={item.price} />
+                                    <Item 
+                                    date={item.input_date} 
+                                    category={item.category_name} 
+                                    name={item.name} price={item.price} 
+                                    movePage={()=>this.props.navigation.navigate("DetailProduct")} />
                                 )}
                             />
                         </View>
@@ -106,6 +121,9 @@ const styles = StyleSheet.create({
     renderText: {
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    cardItem:{
+        marginLeft: -15
     },
     banner: {
         position: 'relative'
@@ -141,6 +159,10 @@ const styles = StyleSheet.create({
     tagText: {
         flexDirection: 'row',
         marginRight: 10
+    },
+    star:{
+        flexDirection: 'row',
+        marginTop: 5
     }
 })
 
