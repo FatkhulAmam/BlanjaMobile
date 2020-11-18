@@ -1,14 +1,39 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState, createRef } from 'react'
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { Header, Left, Body, Text, Right, Button, Card, CardItem } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import ActionSheet from "react-native-actions-sheet";
+import ImagePicker from 'react-native-image-crop-picker';
 
-import profile from '../../assets/images/user.png'
+const actionSheetRef = createRef();
 
 const Profile = ({ navigation }) => {
-    const token = useSelector(state=>state.auth.token)
+    const token = useSelector(state => state.auth.token)
     const dispatch = useDispatch()
+    const [Photo, setPhoto] = useState('')
+
+    const choosePhotoGalery = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 300,
+            cropping: true
+          }).then(Photo => {
+              setPhoto(Photo.path)
+              console.log(Photo)
+          });
+    }
+
+    const pickOpenCamera = () =>{
+        ImagePicker.openCamera({
+            width: 300,
+            height: 300,
+            cropping: true,
+          }).then(image => {
+            setPhoto(image.path)
+            console.log(image);
+          });
+    }
 
     return (
         <>
@@ -22,7 +47,12 @@ const Profile = ({ navigation }) => {
             <View style={styles.parent}>
                 <Text style={styles.tittle}>My Profile</Text>
                 <View style={styles.userBio}>
-                    <Image style={styles.image} source={profile} />
+                    <TouchableOpacity
+                        onPress={() => {
+                            actionSheetRef.current?.setModalVisible();
+                        }}>
+                        <Image style={styles.avatar} source={{uri: Photo}}/>
+                    </TouchableOpacity>
                     <View style={styles.identity}>
                         <Text style={styles.name}>yudha keling</Text>
                         <Text note>yudkelgtg@mail.com</Text>
@@ -87,6 +117,33 @@ const Profile = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
+                <View style={styles.border}></View>
+                <View>
+                    <Text style={styles.change}>Password Change</Text>
+                    <Button
+                        style={styles.btnLogin}
+                        block
+                        onPress={pickOpenCamera}
+                    >
+                        <Text style={styles.btntext}>take picture</Text>
+                    </Button>
+                    <Button
+                        style={styles.btnLogin}
+                        block
+                        onPress={choosePhotoGalery}
+                    >
+                        <Text style={styles.btntext}>pick from galery</Text>
+                    </Button>
+                    <Button
+                        style={styles.btnLogin}
+                        block
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Text style={styles.btntext}>Cencel</Text>
+                    </Button>
+                </View>
+            </ActionSheet>
         </>
     )
 }
@@ -106,6 +163,13 @@ const styles = StyleSheet.create({
         marginTop: 25,
         marginBottom: 20
     },
+    avatar: {
+        width: 100,
+        height: 100,
+        flexDirection: 'row',
+        backgroundColor: '#8e8e8e',
+        borderRadius: 50
+    },
     image: {
         height: 90,
         width: 90,
@@ -120,5 +184,34 @@ const styles = StyleSheet.create({
     },
     card: {
         flexDirection: 'row'
-    }
+    },
+    actionSheet: {
+        flex: 1,
+        height: 1000
+    },
+    border: {
+        borderBottomWidth: 5,
+        width: 100,
+        marginTop: 20,
+        marginLeft: 125,
+        marginBottom: 20,
+        borderRadius: 50,
+        borderColor: '#e8e8e8'
+    },
+    change: {
+        fontSize: 20,
+        paddingLeft: 90
+    },
+    change: {
+        fontSize: 20,
+        paddingLeft: 90
+    },
+    btnLogin: {
+        borderRadius: 25,
+        backgroundColor: 'green',
+        margin: 10,
+    },
+    btntext: {
+        color: "#FFFFFF",
+    },
 })

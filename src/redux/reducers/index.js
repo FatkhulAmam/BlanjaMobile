@@ -1,13 +1,15 @@
 import {combineReducers} from 'redux'
 
-import product from './product'
 import register from './register'
 import auth from './auth'
+import product from './product'
+import category from './category'
 import profile from './profile'
 
 export default combineReducers({
-    product,
     register,
     auth,
+    product,
+    category,
     profile
 })

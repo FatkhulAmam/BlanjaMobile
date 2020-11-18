@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native'
 import { Text, Header, Left, Body, Right, Button, Title, Card, CardItem } from 'native-base';
+import { connect } from 'react-redux'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
+import {getCategory} from '../../redux/actions/category'
 
 class Item extends React.Component {
     render() {
@@ -17,27 +19,12 @@ class Item extends React.Component {
 }
 
 class Shop extends React.Component {
-    state = {
-        data: [
-            {
-                category: 'Tops'
-            },
-            {
-                category: 'Shirt'
-            },
-            {
-                category: 'Clotes'
-            },
-            {
-                category: 'Blazers'
-            },
-            {
-                category: 'Pants'
-            },
-        ]
+    componentDidMount() {
+        this.props.getCategory()
     }
 
     render() {
+        const { isLoading, data, isError, message } = this.props.categoryList
         return (
             <>
                 <Header style={styles.header} transparent>
@@ -65,10 +52,10 @@ class Shop extends React.Component {
                     <Text style={styles.choose} note>Choose category</Text>
                     <View>
                         <FlatList
-                            data={this.state.data}
+                            data={data}
                             keyExtractor={(item, index) => index.toString()} 
                             renderItem={({ item, index }) => (
-                                <Item category={item.category} />
+                                <Item category={item.category_name} />
                             )}
                         />
                     </View>
@@ -78,7 +65,14 @@ class Shop extends React.Component {
     }
 }
 
-export default Shop
+const mapStateToProps = state => ({
+    categoryList: state.category
+})
+const mapDispatchToProps = {
+    getCategory
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop)
 
 const styles = StyleSheet.create({
     renderParent: {

@@ -1,5 +1,5 @@
 import React, { useState, createRef } from 'react'
-import { StyleSheet, View, ScrollView, Switch, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, ScrollView, Switch, TextInput, TouchableOpacity, Image } from 'react-native'
 import { Header, Left, Right, Button, Text, Card, CardItem, Body, Item, Input, Form, Label } from 'native-base';
 import Formik from 'formik'
 import * as yup from 'yup'

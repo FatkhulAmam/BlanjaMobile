@@ -2,34 +2,35 @@ const initialState = {
   data: [],
   isLoading: false,
   isError: false,
-  alertMsg: ''
+  message: ''
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DATA_PENDING': {
+    case 'GET_CATEGORY_PENDING': {
       return {
         ...state,
         isLoading: true
       }
     }
-    case 'GET_DATA_REJECTED': {
-      return {
+    case 'GET_CATEGORY_REJECTED' : {
+      return{
         ...state,
         isLoading: false,
         isError: true,
-        alertMsg: 'There is an error at request data'
+        message: 'Cannot Get Category'
       }
     }
-    case 'GET_DATA_FULFILLED': {
-      return {
+    case 'GET_CATEGORY_FULFILLED' : {
+      return{
         ...state,
         isLoading: false,
-        data: action.payload.data.data
+        data: action.payload.data.data,
+        message: 'list category'
       }
     }
-    default: {
-      return state
+    default:{
+        return state
     }
   }
 }
