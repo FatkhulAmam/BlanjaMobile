@@ -7,6 +7,7 @@ import category from './category'
 import profile from './profile'
 import search from './search'
 import address from './getAddress'
+import addAddress from './makeAddress'
 
 export default combineReducers({
     register,
@@ -15,5 +16,6 @@ export default combineReducers({
     category,
     profile,
     search,
-    address
+    address,
+    addAddress
 })

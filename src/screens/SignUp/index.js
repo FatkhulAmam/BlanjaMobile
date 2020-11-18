@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { Formik } from 'formik'
+import * as yup from 'yup'
 import {
     Button, Header, Left, Body,
     Right, Card, CardItem,
@@ -9,7 +10,21 @@ import {
 } from 'native-base';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Validation from '../../helpers/formValidationSchema'
+
+const loginValidationSchema = yup.object().shape({
+    name: yup
+        .string()
+        .matches(/(\w.+\s).+/, 'Enter at least 2 names')
+        .required('Name is required'),
+    email: yup
+        .string()
+        .email("Please enter valid email")
+        .required('Email Address is Required'),
+    password: yup
+        .string()
+        .min(8, ({ min }) => `Password must be at least ${min} characters`)
+        .required('Password is required'),
+})
 
 import { registerAction } from '../../redux/actions/register'
 
@@ -48,7 +63,7 @@ class SignUp extends React.Component {
                     <Text style={styles.text}>Sign Up</Text>
                 </View>
                 <Formik
-                    validationSchema={Validation}
+                    validationSchema={loginValidationSchema}
                     initialValues={{ name: '', email: '', password: '' }}
                     onSubmit={values => this.props.registerAction(values.name, values.email, values.password)}>
                     {({
