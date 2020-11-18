@@ -7,13 +7,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_PROFILE_PENDING':{
+        case 'GET_USER_PENDING':{
             return{
                 ...state,
                 isLoading: true
             }
         }
-        case 'GET_PROFILE_REJECTED':{
+        case 'GET_USER_REJECTED':{
             return{
                 ...state,
                 isLoading: false,
@@ -21,11 +21,12 @@ export default (state = initialState, action) => {
                 message: 'There is error at request data'
             }
         }
-        case 'GET_PROFILE_FULFILLED':{
+        case 'GET_USER_FULFILLED':{
             return{
                 ...state,
-                data: action.payload.data.data,
-                isLoading:false
+                isLoading:false,
+                isError: false,
+                data: action.payload.data.data
             }
         }
         case 'CLEAR_MESSAGE': {

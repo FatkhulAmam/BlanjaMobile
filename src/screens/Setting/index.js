@@ -1,4 +1,5 @@
-import React, { useState, createRef } from 'react'
+import React, { useState, createRef, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { StyleSheet, View, ScrollView, Switch, TextInput, TouchableOpacity, Image } from 'react-native'
 import { Header, Left, Right, Button, Text, Card, CardItem, Body, Item, Input, Form, Label } from 'native-base';
 import Formik from 'formik'
@@ -8,6 +9,7 @@ import ActionSheet from "react-native-actions-sheet";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const actionSheetRef = createRef();
+import { getProfile } from '../../redux/actions/profile'
 
 const loginValidationSchema = yup.object().shape({
     name: yup
@@ -20,14 +22,21 @@ const loginValidationSchema = yup.object().shape({
         .required('Password is required'),
 })
 
-const MyOrder = ({ navigation }) => {
-
+const Setting = ({ navigation }) => {
     const [isEnabledSales, setIsEnabledSales] = useState(false);
     const [isEnabledNew, setIsEnabledNew] = useState(false);
     const [isEnabledDeliver, setIsEnabledDeliver] = useState(false);
     const toggleSwitchSales = () => setIsEnabledSales(previousState => !previousState);
     const toggleSwitchNew = () => setIsEnabledNew(previousState => !previousState);
     const toggleSwitchDeliver = () => setIsEnabledDeliver(previousState => !previousState);
+
+    const token = useSelector(state => state.auth.token)
+    const profile = useSelector(state => state.profile)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getProfile(token))
+    }, [dispatch, token])
 
     return (
         <>
@@ -47,28 +56,30 @@ const MyOrder = ({ navigation }) => {
                 <View style={styles.parent}>
                     <Text style={styles.tittle}>Settings</Text>
                     <Text style={styles.info}>Personal Information</Text>
-                    <Form>
-                        <Card>
-                            <CardItem>
-                                <Body>
-                                    <TextInput
-                                        placeholder="User name"
-                                        style={styles.textInput}
-                                    />
-                                </Body>
-                            </CardItem>
-                        </Card>
-                        <Card>
-                            <CardItem>
-                                <Body>
-                                    <TextInput
-                                        placeholder="Birth day"
-                                        style={styles.textInput}
-                                    />
-                                </Body>
-                            </CardItem>
-                        </Card>
-                    </Form>
+                    {Object.keys(profile.data[0]).length && (
+                        <Form>
+                            <Card>
+                                <CardItem>
+                                    <Body>
+                                        <TextInput
+                                            value={profile.data[0].user_name}
+                                            style={styles.textInput}
+                                        />
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                            <Card>
+                                <CardItem>
+                                    <Body>
+                                        <TextInput
+                                            value={profile.data[0].birth}
+                                            style={styles.textInput}
+                                        />
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        </Form>
+                    )}
                     <View style={styles.labelPass}>
                         <Text style={styles.textPass}>Password</Text>
                         <Left />
@@ -86,6 +97,7 @@ const MyOrder = ({ navigation }) => {
                                 <TextInput
                                     placeholder="Password"
                                     style={styles.textInput}
+                                    secureTextEntry
                                 />
                             </Body>
                         </CardItem>
@@ -124,7 +136,7 @@ const MyOrder = ({ navigation }) => {
                         <CardItem>
                             <Body>
                                 <TextInput
-                                    placeholder="Email"
+                                    value={profile.data[0].email}
                                     style={styles.textInput}
                                 />
                             </Body>
@@ -154,7 +166,7 @@ const MyOrder = ({ navigation }) => {
                     <Button
                         style={styles.btnLogin}
                         block>
-                        <Text style={styles.btntext}>LOGIN</Text>
+                        <Text style={styles.btntext}>confirm</Text>
                     </Button>
                 </View>
             </ActionSheet>
@@ -162,7 +174,7 @@ const MyOrder = ({ navigation }) => {
     )
 }
 
-export default MyOrder
+export default Setting
 
 const styles = StyleSheet.create({
     parent: {

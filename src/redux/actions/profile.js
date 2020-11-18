@@ -1,10 +1,8 @@
 import http from '../../helpers/http'
 
-export default {
-    getProfile: (token)=>{
-        return{
-            type: 'GET_PROFILE',
-            payload: http(token).get('user')
-        }
-    }
-}
+const getProfile = (token) => ({
+    type: 'GET_USER',
+    payload: http(token).get('user/')
+})
+
+export {getProfile}

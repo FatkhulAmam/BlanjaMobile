@@ -1,38 +1,46 @@
-import React, { useState, createRef } from 'react'
+import React, { useState, createRef, useEffect } from 'react'
 import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { Header, Left, Body, Text, Right, Button, Card, CardItem } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ActionSheet from "react-native-actions-sheet";
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker'
+import { API_URL } from '@env'
 
 const actionSheetRef = createRef();
+import { getProfile } from '../../redux/actions/profile'
 
 const Profile = ({ navigation }) => {
     const token = useSelector(state => state.auth.token)
+    const profile = useSelector(state => state.profile)
     const dispatch = useDispatch()
-    const [Photo, setPhoto] = useState('')
+    const [Photo, setPhoto] = useState(`${API_URL}${profile.data[0].photo}`)
+
+    useEffect(() => {
+        dispatch(getProfile(token))
+        console.log(Photo);
+    }, [dispatch, token])
 
     const choosePhotoGalery = () => {
         ImagePicker.openPicker({
             width: 300,
             height: 300,
             cropping: true
-          }).then(Photo => {
-              setPhoto(Photo.path)
-              console.log(Photo)
-          });
+        }).then(Photo => {
+            setPhoto(Photo.path)
+            console.log(Photo)
+        });
     }
 
-    const pickOpenCamera = () =>{
+    const pickOpenCamera = () => {
         ImagePicker.openCamera({
             width: 300,
             height: 300,
             cropping: true,
-          }).then(image => {
+        }).then(image => {
             setPhoto(image.path)
             console.log(image);
-          });
+        });
     }
 
     return (
@@ -46,18 +54,20 @@ const Profile = ({ navigation }) => {
             </Header>
             <View style={styles.parent}>
                 <Text style={styles.tittle}>My Profile</Text>
-                <View style={styles.userBio}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            actionSheetRef.current?.setModalVisible();
-                        }}>
-                        <Image style={styles.avatar} source={{uri: Photo}}/>
-                    </TouchableOpacity>
-                    <View style={styles.identity}>
-                        <Text style={styles.name}>yudha keling</Text>
-                        <Text note>yudkelgtg@mail.com</Text>
+                {Object.keys(profile.data[0]).length && (
+                    <View style={styles.userBio}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                actionSheetRef.current?.setModalVisible();
+                            }}>
+                            <Image style={styles.avatar} source={{ uri: Photo }} />
+                        </TouchableOpacity>
+                        <View style={styles.identity}>
+                            <Text style={styles.name}>{profile.data[0].user_name}</Text>
+                            <Text note>{profile.data[0].email}</Text>
+                        </View>
                     </View>
-                </View>
+                )}
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('MyOrder')}>
                         <Card transparent>
