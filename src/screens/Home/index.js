@@ -1,42 +1,16 @@
 import React from 'react'
-import { StyleSheet, View, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import { Text, Card, CardItem, Body, Button, Right } from 'native-base'
+import { StyleSheet, View, Image, ScrollView, FlatList } from 'react-native'
+import { Text, Button, Right } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { connect } from 'react-redux'
+import { API_URL } from '@env'
 
 import BigBanner from '../../assets/images/BigBanner.png'
 import photo from '../../assets/images/photo.png'
 import BellIcon from '../../assets/images/bell.svg'
 
 import { getNewProductAction } from '../../redux/actions/product'
-
-class Item extends React.Component {
-    render() {
-        return (
-            <TouchableOpacity onPress={this.props.movePage}>
-                <View style={styles.renderParent}>
-                    <Card transparent>
-                        <CardItem>
-                            <Body style={styles.cardItem}>
-                                <Image source={photo} />
-                                <View style={styles.star}>
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                </View>
-                                <Text note>{this.props.category}</Text>
-                                <Text style={styles.renderText}>{this.props.name}</Text>
-                                <Text>{this.props.price}</Text>
-                            </Body>
-                        </CardItem>
-                    </Card>
-                </View>
-            </TouchableOpacity>
-        )
-    }
-}
+import CardProduct from "../../components/cardProduct";
 
 class Home extends React.Component {
     componentDidMount() {
@@ -69,7 +43,8 @@ class Home extends React.Component {
                                 data={data}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item, index }) => (
-                                    <Item 
+                                    <CardProduct 
+                                    image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
                                     date={item.input_date}
                                     category={item.category_name}
                                     name={item.name} price={item.price}
@@ -89,7 +64,8 @@ class Home extends React.Component {
                                 data={data}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item, index }) => (
-                                    <Item 
+                                    <CardProduct 
+                                    image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
                                     date={item.input_date} 
                                     category={item.category_name} 
                                     name={item.name} price={item.price} 
@@ -163,6 +139,10 @@ const styles = StyleSheet.create({
     star:{
         flexDirection: 'row',
         marginTop: 5
+    },
+    imageProduct:{
+        width: 170,
+        height: 200
     }
 })
 

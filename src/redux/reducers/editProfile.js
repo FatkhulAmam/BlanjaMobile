@@ -1,38 +1,32 @@
 const initialState = {
-    result: [],
-    isLoading: false,
+    isRegister: false,
     isError: false,
     message: ''
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_USER_PENDING':{
+        case 'EDIT_PROFILE_PENDING':{
             return{
                 ...state,
                 isLoading: true
             }
         }
-        case 'GET_USER_REJECTED':{
+        case 'EDIT_PROFILE_REJECTED':{
             return{
                 ...state,
                 isLoading: false,
                 isError: true,
-                message: 'There is error at request data'
+                message: 'cannot edit profile'
             }
         }
-        case 'GET_USER_FULFILLED':{
+        case 'EDIT_PROFILE_FULFILLED':{
             return{
                 ...state,
-                isLoading:false,
                 isError: false,
-                data: action.payload.data.data
-            }
-        }
-        case 'CLEAR_MESSAGE': {
-            return{
-                ...state,
-                message: ''
+                isRegister: true,
+                isLoading:false,
+                message: 'edit profile success'
             }
         }
         default:{

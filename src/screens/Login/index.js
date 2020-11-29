@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, View, Text, Alert, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import {
@@ -53,6 +53,7 @@ class Login extends Component {
                         <Right />
                     </Header>
                 </View>
+                <ScrollView>
                 <View>
                     <Text style={styles.text}>Login</Text>
                 </View>
@@ -122,6 +123,7 @@ class Login extends Component {
                             </View>
                         )}
                 </Formik>
+                </ScrollView>
             </View>
         )
     }

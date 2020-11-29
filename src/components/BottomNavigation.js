@@ -2,16 +2,16 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 //import assets icons
-import Home from '../../assets/images/home.svg'
-import HomeActive from '../../assets/images/homeActive.svg'
-import Shop from '../../assets/images/cart.svg'
-import ShopActive from '../../assets/images/cartActive.svg'
-import Bag from '../../assets/images/bag.svg'
-import BagActive from '../../assets/images/bagActive.svg'
-import Favorites from '../../assets/images/favorite.svg'
-import FavoritesActive from '../../assets/images/favoriteActive.svg'
-import Profile from '../../assets/images/profile.svg'
-import ProfileActive from '../../assets/images/profileActive.svg'
+import Home from '../assets/images/home.svg'
+import HomeActive from '../assets/images/homeActive.svg'
+import Shop from '../assets/images/cart.svg'
+import ShopActive from '../assets/images/cartActive.svg'
+import Bag from '../assets/images/bag.svg'
+import BagActive from '../assets/images/bagActive.svg'
+import Favorites from '../assets/images/favorite.svg'
+import FavoritesActive from '../assets/images/favoriteActive.svg'
+import Profile from '../assets/images/profile.svg'
+import ProfileActive from '../assets/images/profileActive.svg'
 
 const BottomNavigation = ({ state, descriptors, navigation }) => {
     const focusedOptions = descriptors[state.routes[state.index].key].options;
