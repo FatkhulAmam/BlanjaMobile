@@ -3,6 +3,7 @@ import {combineReducers} from 'redux'
 import register from './register'
 import auth from './auth'
 import product from './product'
+import detailProduct from './detailProduct'
 import category from './category'
 import profile from './profile'
 import editUser from './editProfile'
@@ -14,6 +15,7 @@ export default combineReducers({
     register,
     auth,
     product,
+    detailProduct,
     category,
     profile,
     editUser,

@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 const actionSheetRef = createRef();
 import { getProfile } from '../../redux/actions/profile'
-import { editProfile } from '../../redux/actions/editProfile'
+import { editProfile } from '../../redux/actions/profile'
 
 const loginValidationSchema = yup.object().shape({
     user_name: yup

@@ -48,7 +48,7 @@ class Home extends React.Component {
                                     date={item.input_date}
                                     category={item.category_name}
                                     name={item.name} price={item.price}
-                                    movePage={()=>this.props.navigation.navigate("DetailProduct")} />
+                                    movePage={()=>this.props.navigation.navigate("DetailProduct", item.id)} />
                                 )}
                             />
                         </View>
@@ -69,7 +69,7 @@ class Home extends React.Component {
                                     date={item.input_date} 
                                     category={item.category_name} 
                                     name={item.name} price={item.price} 
-                                    movePage={()=>this.props.navigation.navigate("DetailProduct")} />
+                                    movePage={()=>this.props.navigation.navigate("DetailProduct"), item.id} />
                                 )}
                             />
                         </View>
@@ -90,14 +90,6 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
 
 const styles = StyleSheet.create({
-    renderParent: {
-        borderBottomWidth: 1,
-        borderColor: '#e8e8e8'
-    },
-    renderText: {
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
     cardItem:{
         marginLeft: -15
     },
@@ -135,14 +127,6 @@ const styles = StyleSheet.create({
     tagText: {
         flexDirection: 'row',
         marginRight: 10
-    },
-    star:{
-        flexDirection: 'row',
-        marginTop: 5
-    },
-    imageProduct:{
-        width: 170,
-        height: 200
     }
 })
 

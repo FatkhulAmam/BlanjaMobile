@@ -6,4 +6,9 @@ const getNewProductAction = () => ({
   payload: http().get('product/?sort[input_date]=desc')
 })
 
-export { getNewProductAction }
+const getDetailProduct = (id) => ({
+  type: 'GET_DETAIL',
+  payload: http().get(`product/${id}`)
+})
+
+export { getNewProductAction, getDetailProduct }

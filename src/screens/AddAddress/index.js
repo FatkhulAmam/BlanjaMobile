@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import { Formik } from 'formik'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import { makeAddress } from '../../redux/actions/makeAddress'
+import { makeAddress } from '../../redux/actions/address'
 const loginValidationSchema = yup.object().shape({
     home: yup
         .string()

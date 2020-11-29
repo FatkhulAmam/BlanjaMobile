@@ -1,44 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native'
 import { Header, Left, Body, Title, Text, Card, Button, CardItem, Right } from 'native-base';
-import {useSelector} from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { API_URL } from '@env'
 
-import runningImage from '../../assets/images/running.png'
+import {getDetailProduct} from '../../redux/actions/product'
+
 import photo from '../../assets/images/photo.png'
-class Item extends React.Component {
-    render() {
-        return (
-            <TouchableOpacity onPress={this.props.movePage}>
-                <View style={styles.renderParent}>
-                    <Card transparent>
-                        <CardItem>
-                            <Body style={styles.cardItem}>
-                                <Image source={photo} />
-                                <View style={styles.star}>
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                    <Icon name='star-o' size={18} />
-                                </View>
-                                <Text note>{this.props.category}</Text>
-                                <Text style={styles.renderText}>{this.props.name}</Text>
-                                <Text>{this.props.price}</Text>
-                            </Body>
-                        </CardItem>
-                    </Card>
-                </View>
-            </TouchableOpacity>
-        )
-    }
-}
+import CardProdct from '../../components/cardProduct'
 
-const DetailProduct = ({ navigation }) => {
+const DetailProduct = ({ route }) => {
+    const navigation = useNavigation()
+    const dispatch = useDispatch()
     const [count, setCount] = useState(0);
     const onPressInc = () => setCount(prevCount => prevCount + 1);
     const onPressDec = () => setCount(prevCount => prevCount - 1);
     const product = useSelector(state => state.product)
+    const detail = useSelector(state => state.detailProduct.data)
+
+    useEffect(() => {
+        dispatch(getDetailProduct(route.params))
+        console.log(detail)
+    },[dispatch])
 
     return (
         <>
@@ -47,7 +32,7 @@ const DetailProduct = ({ navigation }) => {
                     <Icon name='angle-left' size={30} />
                 </Button>
                 <Body>
-                    <Title style={styles.text}>product name</Title>
+                    <Title style={styles.text}>{detail.name}</Title>
                 </Body>
                 <Button transparent onPress={() => navigation.navigate("Search")}>
                     <Icon name='share-alt' size={22} />
@@ -56,8 +41,7 @@ const DetailProduct = ({ navigation }) => {
             <ScrollView nestedScrollEnabled={true}>
                 <View>
                     <ScrollView horizontal>
-                        <Image style={styles.productImage} source={runningImage} />
-                        <Image style={styles.productImage} source={runningImage} />
+                        <Image style={styles.productImage} source={{uri: `${API_URL}${detail.url}`}} />
                     </ScrollView>
                     <View style={styles.descProduct}>
                         <View>
@@ -84,13 +68,19 @@ const DetailProduct = ({ navigation }) => {
                                     </View>
                                 </View>
                                 <View style={styles.productDetail}>
-                                    <Text style={styles.merk}>H&M</Text>
+                                    <Text style={styles.merk}>Nama Toko</Text>
                                     <Left />
-                                    <Text style={styles.price}>$ 50.0</Text>
+                                    <Text style={styles.price}>{detail.price}</Text>
                                 </View>
-                                <Text note>Short black dress</Text>
-                                <Text>Ratting</Text>
-                                <Text>Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak</Text>
+                                <Text note>{detail.category}</Text>
+                                <View style={styles.star}>
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                    <Icon name='star-o' size={18} />
+                                </View>
+                                <Text>{detail.description}</Text>
                             </ScrollView>
                         </View>
                     </View>
@@ -114,7 +104,8 @@ const DetailProduct = ({ navigation }) => {
                                 data={product.data}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={({ item, index }) => (
-                                    <Item 
+                                    <CardProdct
+                                    image={item.url ? {uri: `${API_URL}${item.url}`} : photo} 
                                     date={item.input_date}
                                     category={item.category_name}
                                     name={item.name} price={item.price}

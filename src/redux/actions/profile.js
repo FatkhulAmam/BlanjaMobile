@@ -6,4 +6,9 @@ const getProfile = (token) => ({
     payload: http(token).get('user/')
 })
 
-export {getProfile}
+const editProfile=(token, user_name, birth) => ({
+    type: 'EDIT_PROFILE',
+    payload: http(token).patch('user', qs.stringify({user_name, birth}))
+})
+
+export {getProfile, editProfile}

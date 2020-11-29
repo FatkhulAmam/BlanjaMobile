@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput, TouchableOpacity, FlatList, SafeAreaView }
 import { Header, Left, Body, Title, Text, Right, Button, Card, CardItem } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { getAddressAction } from '../../redux/actions/getAddress'
+import { getAddressAction } from '../../redux/actions/address'
 
 class Item extends React.Component {
     render() {
