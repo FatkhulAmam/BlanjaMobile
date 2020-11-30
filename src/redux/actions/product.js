@@ -21,4 +21,19 @@ const showMyCart = (token) => ({
   payload: http(token).get('cart')
 })
 
-export { getNewProductAction, getDetailProduct, addToCart, showMyCart }
+const getSearchProductAction = (keyword ,data) => ({
+  type: 'GET_SEARCH',
+  payload: http().get(`product/?search[name]=${keyword}`)
+})
+
+const getProductCategory = (idCategory) => ({
+  type: 'CATEGORY_DETAIL',
+  payload: http().get(`product/?search[category]=${idCategory}`)
+})
+
+const getCategory = (data) => ({
+  type: 'GET_CATEGORY',
+  payload: http().get('/category', qs.stringify(data))
+})
+
+export { getNewProductAction, getDetailProduct, addToCart, showMyCart, getSearchProductAction, getProductCategory, getCategory }

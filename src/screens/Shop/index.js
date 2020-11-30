@@ -4,12 +4,12 @@ import { Text, Header, Left, Body, Right, Button, Title, Card, CardItem } from '
 import { connect } from 'react-redux'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {getCategory} from '../../redux/actions/category'
+import {getCategory, getProductCategory} from '../../redux/actions/product'
 
 class Item extends React.Component {
     render() {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.props.movePage}>
                 <View style={styles.renderParent}>
                     <Text style={styles.renderText}>{this.props.category}</Text>
                 </View>
@@ -55,7 +55,10 @@ class Shop extends React.Component {
                             data={data}
                             keyExtractor={(item, index) => index.toString()} 
                             renderItem={({ item, index }) => (
-                                <Item category={item.category_name} />
+                                <Item 
+                                category={item.category_name}
+                                movePage = {()=>this.props.navigation.navigate('Catalog', item.id)}
+                                />
                             )}
                         />
                     </View>
@@ -69,7 +72,8 @@ const mapStateToProps = state => ({
     categoryList: state.category
 })
 const mapDispatchToProps = {
-    getCategory
+    getCategory,
+    getProductCategory
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shop)

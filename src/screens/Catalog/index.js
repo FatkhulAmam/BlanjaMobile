@@ -1,14 +1,25 @@
-import React, { createRef } from 'react'
+import React, { useState, createRef, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { Text, Header, Left, Body, Right, Button, Title, Card, CardItem, Item } from 'native-base';
 import ActionSheet from "react-native-actions-sheet";
 
+const actionSheetRef = createRef();
+
+import {getProductCategory} from '../../redux/actions/product'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import photo from '../../assets/images/photo.png'
 
-const actionSheetRef = createRef();
+const Catalog = ({ navigation, route }) => {
+   const dispatch = useDispatch()
+   const product = useSelector(state => state.productCategory.data)
 
-const Catalog = ({ navigation }) => {
+    useEffect(() => {
+        dispatch(getProductCategory(route.params))
+        console.log(product)
+    }, [dispatch, route])
+
     return (
         <>
             <Header style={styles.header} noLeft transparent>

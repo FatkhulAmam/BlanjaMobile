@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import photo from '../../assets/images/photo.png'
-import { getSearchProductAction } from '../../redux/actions/search'
+import { getSearchProductAction } from '../../redux/actions/product'
 
 class Item extends React.Component {
     render() {
