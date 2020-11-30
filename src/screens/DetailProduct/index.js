@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, ScrollView, Image, TouchableOpacity, FlatList } from 'react-native'
 import { Header, Left, Body, Title, Text, Card, Button, CardItem, Right } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { API_URL } from '@env'
 
-import {getDetailProduct} from '../../redux/actions/product'
+import { getDetailProduct, addToCart } from '../../redux/actions/product'
 
 import photo from '../../assets/images/photo.png'
 import CardProdct from '../../components/cardProduct'
@@ -17,13 +17,21 @@ const DetailProduct = ({ route }) => {
     const [count, setCount] = useState(0);
     const onPressInc = () => setCount(prevCount => prevCount + 1);
     const onPressDec = () => setCount(prevCount => prevCount - 1);
+    const token = useSelector(state => state.auth.token)
     const product = useSelector(state => state.product)
     const detail = useSelector(state => state.detailProduct.data)
+    const [itemsId, setItemId] = useState(detail.id)
+    const [amount, setAmount] = useState(1)
 
     useEffect(() => {
         dispatch(getDetailProduct(route.params))
-        console.log(detail)
-    },[dispatch])
+        console.log(amount)
+    }, [dispatch])
+
+    const addProduct = () => {
+        dispatch(addToCart(token, itemsId, amount))
+        navigation.navigate('Bag')
+    }
 
     return (
         <>
@@ -41,7 +49,7 @@ const DetailProduct = ({ route }) => {
             <ScrollView nestedScrollEnabled={true}>
                 <View>
                     <ScrollView horizontal>
-                        <Image style={styles.productImage} source={{uri: `${API_URL}${detail.url}`}} />
+                        <Image style={styles.productImage} source={{ uri: `${API_URL}${detail.url}` }} />
                     </ScrollView>
                     <View style={styles.descProduct}>
                         <View>
@@ -85,9 +93,11 @@ const DetailProduct = ({ route }) => {
                         </View>
                     </View>
                     <View style={styles.footer}>
-                        <Button style={styles.btnCart} block onPress={() => navigation.navigate('Bag')}><Text>add to cart</Text></Button>
+                        <Button style={styles.btnCart} block onPress={addProduct}>
+                            <Text>add to cart</Text>
+                        </Button>
                         <View>
-                            <TouchableOpacity style={styles.AddRatting} onPress={()=> navigation.navigate('RatingReview')}>
+                            <TouchableOpacity style={styles.AddRatting} onPress={() => navigation.navigate('RatingReview')}>
                                 <Text>Add Ratting</Text>
                             </TouchableOpacity>
                         </View>
@@ -100,18 +110,18 @@ const DetailProduct = ({ route }) => {
                         </View>
                     </View>
                     <FlatList
-                                horizontal
-                                data={product.data}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item, index }) => (
-                                    <CardProdct
-                                    image={item.url ? {uri: `${API_URL}${item.url}`} : photo} 
-                                    date={item.input_date}
-                                    category={item.category_name}
-                                    name={item.name} price={item.price}
-                                    movePage={()=>navigation.navigate("DetailProduct")} />
-                                )}
-                            />
+                        horizontal
+                        data={product.data}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <CardProdct
+                                image={item.url ? { uri: `${API_URL}${item.url}` } : photo}
+                                date={item.input_date}
+                                category={item.category_name}
+                                name={item.name} price={item.price}
+                                movePage={() => navigation.navigate("DetailProduct")} />
+                        )}
+                    />
                 </View>
             </ScrollView>
         </>
@@ -209,11 +219,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
-    star:{
+    star: {
         flexDirection: 'row',
         marginTop: 5
     },
-    AddRatting:{
+    AddRatting: {
         flex: 1,
         alignItems: 'center',
         marginTop: 20

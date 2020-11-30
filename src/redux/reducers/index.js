@@ -10,6 +10,7 @@ import editUser from './editProfile'
 import search from './search'
 import address from './getAddress'
 import addAddress from './makeAddress'
+import addCart from './addToCart'
 
 export default combineReducers({
     register,
@@ -21,5 +22,6 @@ export default combineReducers({
     editUser,
     search,
     address,
-    addAddress
+    addAddress,
+    addCart
 })
