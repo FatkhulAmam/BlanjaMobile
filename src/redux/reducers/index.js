@@ -11,17 +11,12 @@ import search from './search'
 import address from './getAddress'
 import addAddress from './makeAddress'
 import addCart from './addToCart'
+import myCart from './getCart'
 
 export default combineReducers({
-    register,
-    auth,
-    product,
-    detailProduct,
-    category,
-    profile,
-    editUser,
-    search,
-    address,
-    addAddress,
-    addCart
+    register, auth, profile, editUser,
+    product, detailProduct,
+    category, search,
+    address, addAddress,
+    addCart, myCart
 })

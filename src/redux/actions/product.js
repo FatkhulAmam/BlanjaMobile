@@ -16,4 +16,9 @@ const addToCart = (token, itemsId, amount) => ({
   payload: http(token).post('cart', qs.stringify({itemsId, amount}))
 })
 
-export { getNewProductAction, getDetailProduct, addToCart }
+const showMyCart = (token) => ({
+  type: 'GET_CART',
+  payload: http(token).get('cart')
+})
+
+export { getNewProductAction, getDetailProduct, addToCart, showMyCart }
