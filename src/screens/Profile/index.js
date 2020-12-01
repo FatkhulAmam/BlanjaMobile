@@ -17,18 +17,16 @@ import {API_URL} from '@env';
 
 const actionSheetRef = createRef();
 import {getProfile} from '../../redux/actions/profile';
-import defaultAvatar from '../../assets/images/defaultAvatar.png';
+import Avatar from '../../assets/images/avatar.png';
 
 const Profile = ({navigation}) => {
   const token = useSelector((state) => state.auth.token);
-  const profile = useSelector((state) => state.profile.result);
+  const profile = useSelector((state) => state.profile.data[0]);
   const dispatch = useDispatch();
-  const [Photo, setPhoto] = useState(`${API_URL}${profile.photo}`);
 
   useEffect(() => {
     dispatch(getProfile(token));
-    console.log(profile);
-  }, [dispatch, profile, token]);
+  }, [dispatch, token]);
 
   return (
     <>
@@ -48,7 +46,11 @@ const Profile = ({navigation}) => {
             }}>
             <Image
               style={styles.avatar}
-              source={Photo ? {uri: Photo} : defaultAvatar}
+              source={
+                profile.photo !== null
+                  ? {uri: `${API_URL}${profile.photo}`}
+                  : Avatar
+              }
             />
           </TouchableOpacity>
           <View style={styles.identity}>
@@ -157,7 +159,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     flexDirection: 'row',
-    backgroundColor: '#8e8e8e',
     borderRadius: 50,
   },
   image: {
