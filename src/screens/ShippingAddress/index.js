@@ -60,8 +60,7 @@ const ShippingAddress = ({navigation}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAddressAction(token));
-    console.log(address.data);
-  }, [address.data, dispatch, token]);
+  }, [dispatch, token]);
 
   return (
     <>
@@ -76,7 +75,7 @@ const ShippingAddress = ({navigation}) => {
         </Body>
       </Header>
       <View style={styles.parent}>
-        <View style={{position: 'relative'}}>
+        <View style={styles.searchCont}>
           <TextInput style={styles.search} placeholder="Search" />
           <Icon style={styles.icon} name="search" size={20} />
         </View>
@@ -94,7 +93,7 @@ const ShippingAddress = ({navigation}) => {
                 city={item.city}
                 phone={item.recipients_phone}
                 address={item.address}
-                movePage={() => navigation.navigate('ChangeAddress')}
+                movePage={() => navigation.navigate('ChangeAddress', item.id)}
               />
             )}
           />
@@ -106,7 +105,7 @@ const ShippingAddress = ({navigation}) => {
           onPress={() => {
             navigation.navigate('AddAddress');
           }}>
-          <Text style={{color: '#000000'}}>ADD NEW ADDRESS</Text>
+          <Text style={styles.addText}>ADD NEW ADDRESS</Text>
         </Button>
       </View>
     </>
@@ -134,6 +133,9 @@ const styles = StyleSheet.create({
     paddingLeft: 35,
     fontSize: 20,
     marginTop: 5,
+  },
+  searchCont: {
+    position: 'relative',
   },
   icon: {
     color: '#a3a3a3',
@@ -170,5 +172,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#000000',
     borderRadius: 50,
+  },
+  addText: {
+    color: '#000000',
   },
 });

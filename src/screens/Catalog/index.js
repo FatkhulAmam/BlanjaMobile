@@ -17,14 +17,15 @@ import {getProductCategory} from '../../redux/actions/product';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
 
+import {getNewProductAction} from '../../redux/actions/product';
+
 const Catalog = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.productCategory.data);
+  const product = useSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(getProductCategory(route.params));
-    console.log(product);
-  }, [dispatch, product, route]);
+    dispatch(getNewProductAction());
+  }, [dispatch, route]);
 
   return (
     <>
@@ -68,30 +69,6 @@ const Catalog = ({navigation, route}) => {
       </View>
       <ScrollView>
         <View style={styles.parent}>
-          <View style={styles.CardProduct}>
-            <Card transparent>
-              <CardItem style={styles.cardItem}>
-                <Body>
-                  <Image source={photo} />
-                  <Text>Bintang</Text>
-                  <Text note>Toko</Text>
-                  <Text>Nama Barang</Text>
-                  <Text>Rp. Harga</Text>
-                </Body>
-              </CardItem>
-            </Card>
-            <Card transparent>
-              <CardItem style={styles.cardItem}>
-                <Body>
-                  <Image source={photo} />
-                  <Text>Bintang</Text>
-                  <Text note>Toko</Text>
-                  <Text>Nama Barang</Text>
-                  <Text>Rp. Harga</Text>
-                </Body>
-              </CardItem>
-            </Card>
-          </View>
           <View style={styles.CardProduct}>
             <Card transparent>
               <CardItem style={styles.cardItem}>

@@ -6,6 +6,11 @@ const getAddressAction = (token, data) => ({
   payload: http(token).get('user/address', qs.stringify(data)),
 });
 
+const getAddressIdAction = (token, id) => ({
+  type: 'ADDRESS_ID',
+  payload: http(token).get(`user/address/${id}`),
+});
+
 const makeAddress = (
   token,
   home,
@@ -29,4 +34,4 @@ const makeAddress = (
   ),
 });
 
-export {getAddressAction, makeAddress};
+export {getAddressAction, makeAddress, getAddressIdAction};

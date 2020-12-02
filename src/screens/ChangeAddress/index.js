@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {createRef, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {StyleSheet, View, TextInput, ScrollView} from 'react-native';
 import {
   Header,
@@ -15,6 +16,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {getAddressIdAction} from '../../redux/actions/address';
 
 const loginValidationSchema = yup.object().shape({
   name: yup
@@ -32,7 +34,15 @@ const loginValidationSchema = yup.object().shape({
   phone: yup.number().required('phone is required'),
 });
 
-const AddAddress = ({navigation}) => {
+const AddAddress = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const AddressId = useSelector((state) => state.addressId.data[0]);
+
+  useEffect(() => {
+    dispatch(getAddressIdAction(token, route.params));
+  }, [dispatch, token, route.params]);
+
   return (
     <>
       <Header style={styles.header}>
@@ -77,7 +87,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('home')}
                         onBlur={handleBlur('home')}
-                        value={values.home}
+                        value={AddressId.home}
                       />
                       {errors.home && (
                         <Text style={styles.textError}>{errors.home}</Text>
@@ -88,7 +98,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('name')}
                         onBlur={handleBlur('name')}
-                        value={values.name}
+                        value={AddressId.recipients_name}
                       />
                       {errors.name && (
                         <Text style={styles.textError}>{errors.name}</Text>
@@ -105,7 +115,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('address')}
                         onBlur={handleBlur('address')}
-                        value={values.address}
+                        value={AddressId.address}
                       />
                       {errors.address && (
                         <Text style={styles.textError}>{errors.address}</Text>
@@ -116,7 +126,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('city')}
                         onBlur={handleBlur('city')}
-                        value={values.city}
+                        value={AddressId.city}
                       />
                       {errors.city && (
                         <Text style={styles.textError}>{errors.city}</Text>
@@ -127,7 +137,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('zipCode')}
                         onBlur={handleBlur('zipCode')}
-                        value={values.zipCode}
+                        value={parseInt(AddressId.postal_code)}
                       />
                       {errors.zipCode && (
                         <Text style={styles.textError}>{errors.zipCode}</Text>
@@ -144,7 +154,7 @@ const AddAddress = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={handleChange('phone')}
                         onBlur={handleBlur('phone')}
-                        value={values.phone}
+                        value={AddressId.recipients_phone}
                       />
                       {errors.phone && (
                         <Text style={styles.textError}>{errors.phone}</Text>

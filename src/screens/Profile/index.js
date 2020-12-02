@@ -1,32 +1,48 @@
-import React, {useState, createRef, useEffect} from 'react';
-import {StyleSheet, View, Image, TouchableOpacity, Alert} from 'react-native';
-import {
-  Header,
-  Left,
-  Body,
-  Text,
-  Right,
-  Button,
-  Card,
-  CardItem,
-} from 'native-base';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import {Header, Body, Text, Right, Button, Card, CardItem} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ActionSheet from 'react-native-actions-sheet';
+import ImagePicker from 'react-native-image-picker';
 import {API_URL} from '@env';
 
-const actionSheetRef = createRef();
 import {getProfile} from '../../redux/actions/profile';
 import Avatar from '../../assets/images/avatar.png';
+const options = {
+  title: 'my picture',
+  takePhotoButtonTitle: 'Take Photo',
+  chooseFromLibraryButtonTitle: 'Choose Photo',
+};
 
 const Profile = ({navigation}) => {
   const token = useSelector((state) => state.auth.token);
   const profile = useSelector((state) => state.profile.data[0]);
   const dispatch = useDispatch();
+  const [AvatarSource, setAvatarSource] = useState('');
 
   useEffect(() => {
     dispatch(getProfile(token));
   }, [dispatch, token]);
+
+  const takePictures = () => {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        setAvatarSource(response.uri);
+        const form = new FormData();
+        form.append('pictures', {
+          uri: response.uri,
+          name: response.fileName,
+          type: response.type,
+        });
+      }
+    });
+  };
 
   return (
     <>
@@ -40,17 +56,10 @@ const Profile = ({navigation}) => {
       <View style={styles.parent}>
         <Text style={styles.tittle}>My Profile</Text>
         <View style={styles.userBio}>
-          <TouchableOpacity
-            onPress={() => {
-              actionSheetRef.current?.setModalVisible();
-            }}>
+          <TouchableOpacity onPress={takePictures}>
             <Image
               style={styles.avatar}
-              source={
-                profile.photo !== null
-                  ? {uri: `${API_URL}${profile.photo}`}
-                  : Avatar
-              }
+              source={AvatarSource !== '' ? {uri: AvatarSource} : Avatar}
             />
           </TouchableOpacity>
           <View style={styles.identity}>
@@ -118,24 +127,6 @@ const Profile = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
-        <View style={styles.border} />
-        <View>
-          <Text style={styles.change}>Password Change</Text>
-          <Button style={styles.btnLogin} block>
-            <Text style={styles.btntext}>take picture</Text>
-          </Button>
-          <Button style={styles.btnLogin} block>
-            <Text style={styles.btntext}>pick from galery</Text>
-          </Button>
-          <Button
-            style={styles.btnLogin}
-            block
-            onPress={() => navigation.goBack()}>
-            <Text style={styles.btntext}>Cencel</Text>
-          </Button>
-        </View>
-      </ActionSheet>
     </>
   );
 };

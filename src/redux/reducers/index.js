@@ -11,6 +11,7 @@ import editUser from './editProfile';
 import search from './search';
 import address from './getAddress';
 import addAddress from './makeAddress';
+import addressId from './addressById';
 import addCart from './addToCart';
 import myCart from './getCart';
 
@@ -26,6 +27,7 @@ export default combineReducers({
   search,
   address,
   addAddress,
+  addressId,
   addCart,
   myCart,
 });
