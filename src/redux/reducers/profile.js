@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload.data.data,
+        result: action.payload.data.data,
       };
     }
     case 'CLEAR_MESSAGE': {

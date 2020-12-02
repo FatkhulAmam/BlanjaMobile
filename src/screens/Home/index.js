@@ -9,11 +9,13 @@ import photo from '../../assets/images/photo.png';
 import BellIcon from '../../assets/images/bell.svg';
 
 import {getNewProductAction} from '../../redux/actions/product';
+import {getProfile} from '../../redux/actions/profile';
 import CardProduct from '../../components/cardProduct';
 
 class Home extends React.Component {
   componentDidMount() {
     this.props.getNewProductAction();
+    this.props.getProfile(this.props.token);
   }
 
   render() {
@@ -91,9 +93,11 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => ({
   productState: state.product,
+  token: state.auth.token,
 });
 const mapDispatchToProps = {
   getNewProductAction,
+  getProfile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

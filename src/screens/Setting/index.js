@@ -49,7 +49,7 @@ const Setting = ({navigation}) => {
     setIsEnabledDeliver((previousState) => !previousState);
 
   const token = useSelector((state) => state.auth.token);
-  const profile = useSelector((state) => state.profile);
+  const profile = useSelector((state) => state.profile.result[0]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -89,46 +89,44 @@ const Setting = ({navigation}) => {
               <View style={styles.parent}>
                 <Text style={styles.tittle}>Settings</Text>
                 <Text style={styles.info}>Personal Information</Text>
-                {Object.keys(profile.data[0]).length && (
-                  <Form>
-                    <Card>
-                      <CardItem>
-                        <Body>
-                          <TextInput
-                            name="user_name"
-                            placeholder="user name"
-                            style={styles.textInput}
-                            onChangeText={handleChange('user_name')}
-                            onBlur={handleBlur('user_name')}
-                            value={values.user_name}
-                          />
-                          {errors.user_name && (
-                            <Text style={styles.textError}>
-                              {errors.user_name}
-                            </Text>
-                          )}
-                        </Body>
-                      </CardItem>
-                    </Card>
-                    <Card>
-                      <CardItem>
-                        <Body>
-                          <TextInput
-                            name="birth"
-                            placeholder="birth date"
-                            style={styles.textInput}
-                            onChangeText={handleChange('birth')}
-                            onBlur={handleBlur('birth')}
-                            value={values.birth}
-                          />
-                          {errors.birth && (
-                            <Text style={styles.textError}>{errors.birth}</Text>
-                          )}
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  </Form>
-                )}
+                <Form>
+                  <Card>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="user_name"
+                          placeholder="user name"
+                          style={styles.textInput}
+                          onChangeText={handleChange('user_name')}
+                          onBlur={handleBlur('user_name')}
+                          value={profile.user_name}
+                        />
+                        {errors.user_name && (
+                          <Text style={styles.textError}>
+                            {errors.user_name}
+                          </Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <Card>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="birth"
+                          placeholder="birth date"
+                          style={styles.textInput}
+                          onChangeText={handleChange('birth')}
+                          onBlur={handleBlur('birth')}
+                          value={profile.birth}
+                        />
+                        {errors.birth && (
+                          <Text style={styles.textError}>{errors.birth}</Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                </Form>
                 <View style={styles.labelPass}>
                   <Text style={styles.textPass}>Password</Text>
                   <Left />
@@ -188,10 +186,7 @@ const Setting = ({navigation}) => {
           <Card transparent>
             <CardItem>
               <Body>
-                <TextInput
-                  value={profile.data[0].email}
-                  style={styles.textInput}
-                />
+                <TextInput value={profile.email} style={styles.textInput} />
               </Body>
             </CardItem>
           </Card>

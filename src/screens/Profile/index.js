@@ -15,14 +15,9 @@ const options = {
 };
 
 const Profile = ({navigation}) => {
-  const token = useSelector((state) => state.auth.token);
-  const profile = useSelector((state) => state.profile.data[0]);
+  const profile = useSelector((state) => state.profile.result[0]);
   const dispatch = useDispatch();
   const [AvatarSource, setAvatarSource] = useState('');
-
-  useEffect(() => {
-    dispatch(getProfile(token));
-  }, [dispatch, token]);
 
   const takePictures = () => {
     ImagePicker.showImagePicker(options, (response) => {
