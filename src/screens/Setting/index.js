@@ -1,4 +1,4 @@
-import React, {useState, createRef, useEffect} from 'react';
+import React, {useState, createRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   StyleSheet,
@@ -26,7 +26,6 @@ import ActionSheet from 'react-native-actions-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const actionSheetRef = createRef();
-import {getProfile} from '../../redux/actions/profile';
 import {editProfile} from '../../redux/actions/profile';
 
 const loginValidationSchema = yup.object().shape({
@@ -51,10 +50,6 @@ const Setting = ({navigation}) => {
   const token = useSelector((state) => state.auth.token);
   const profile = useSelector((state) => state.profile.result[0]);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProfile(token));
-  }, [dispatch, token]);
 
   return (
     <>

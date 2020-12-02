@@ -9,24 +9,25 @@ import {
 } from 'react-native';
 import {Text, Header, Body, Button, Title, Card, CardItem} from 'native-base';
 import ActionSheet from 'react-native-actions-sheet';
+import {API_URL} from '@env';
 
 const actionSheetRef = createRef();
 
-import {getProductCategory} from '../../redux/actions/product';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
-
-import {getNewProductAction} from '../../redux/actions/product';
+import {getProductCategory} from '../../redux/actions/product';
 
 const Catalog = ({navigation, route}) => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+  const productBy = useSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(getNewProductAction());
-  }, [dispatch, route]);
+    dispatch(getProductCategory(route.params));
+    console.log(route.params);
+  });
 
+  const {isLoading, data, isError, alertMsg} = product;
   return (
     <>
       <Header style={styles.header} noLeft transparent>
@@ -68,33 +69,47 @@ const Catalog = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <View style={styles.parent}>
-          <View style={styles.CardProduct}>
-            <Card transparent>
-              <CardItem style={styles.cardItem}>
-                <Body>
-                  <Image source={photo} />
-                  <Text>Bintang</Text>
-                  <Text note>Toko</Text>
-                  <Text>Nama Barang</Text>
-                  <Text>Rp. Harga</Text>
-                </Body>
-              </CardItem>
-            </Card>
-            <Card transparent>
-              <CardItem style={styles.cardItem}>
-                <Body>
-                  <Image source={photo} />
-                  <Text>Bintang</Text>
-                  <Text note>Toko</Text>
-                  <Text>Nama Barang</Text>
-                  <Text>Rp. Harga</Text>
-                </Body>
-              </CardItem>
-            </Card>
-          </View>
-        </View>
+        {!isLoading &&
+          !isError &&
+          data.length !== 0 &&
+          data.map((item) => {
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('DetailProduct', item.id)}>
+                <View style={styles.parent}>
+                  <View style={styles.CardProduct}>
+                    <Card transparent>
+                      <CardItem style={styles.cardItem}>
+                        <Body>
+                          <Image
+                            style={styles.productImg}
+                            source={
+                              item.url !== ''
+                                ? {uri: `${API_URL}${item.url}`}
+                                : photo
+                            }
+                          />
+                          <View style={styles.star}>
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                          </View>
+                          <Text style={styles.name}>{item.name}</Text>
+                          <Text note>{item.category_name}</Text>
+                          <Text style={styles.price}>Rp. {item.price}</Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
       </ScrollView>
+      {isLoading && !isError && <div>Loading</div>}
+      {isError && alertMsg !== '' && <div>{alertMsg}</div>}
       <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
         <View style={styles.border} />
         <View>
@@ -132,6 +147,21 @@ const styles = StyleSheet.create({
   },
   parent: {
     backgroundColor: '#fafafa',
+  },
+  productImg: {
+    width: 170,
+    height: 200,
+  },
+  star: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  name: {
+    fontSize: 23,
+    fontWeight: 'bold',
+  },
+  price: {
+    fontSize: 18,
   },
   menu: {
     flexDirection: 'row',
