@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -15,6 +16,7 @@ import {Button, Header, Left, Body, Right, Card, CardItem} from 'native-base';
 import {loginAction} from '../../redux/actions/auth';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const loginValidationSchema = yup.object().shape({
   email: yup
@@ -32,23 +34,24 @@ class Login extends Component {
     message: '',
   };
 
-  showAlert = () => {
-    const {message} = this.props.auth;
-    if (message !== this.state.message) {
+  doLogin = async (data) => {
+    await this.props.loginAction(data.email, data.password);
+    const {message, isError} = this.props.auth;
+    if (isError === false && message !== this.state.message) {
+      this.setState({message});
+      Alert.alert(message);
+    } else {
       this.setState({message});
       Alert.alert(message);
     }
   };
-
-  componentDidUpdate() {
-    this.showAlert();
-  }
 
   render() {
     return (
       <View style={styles.parent}>
         <View>
           <Header transparent>
+            <StatusBar backgroundColor={'green'} />
             <Left>
               <Button
                 transparent
@@ -59,81 +62,86 @@ class Login extends Component {
             <Right />
           </Header>
         </View>
-        <ScrollView>
-          <View>
-            <Text style={styles.text}>Login</Text>
-          </View>
-          <Formik
-            validationSchema={loginValidationSchema}
-            initialValues={{email: '', password: ''}}
-            onSubmit={(values) =>
-              this.props.loginAction(values.email, values.password)
-            }>
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              isValid,
-            }) => (
-              <View style={styles.register}>
-                <Card transparent>
-                  <CardItem>
-                    <Body>
-                      <TextInput
-                        name="email"
-                        placeholder="Email Address"
-                        style={styles.textInput}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        keyboardType="email-address"
-                      />
-                      {errors.email && (
-                        <Text style={styles.textError}>{errors.email}</Text>
-                      )}
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Card transparent>
-                  <CardItem>
-                    <Body>
-                      <TextInput
-                        name="password"
-                        placeholder="Password"
-                        style={styles.textInput}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        secureTextEntry
-                      />
-                      {errors.password && (
-                        <Text style={styles.textError}>{errors.password}</Text>
-                      )}
-                    </Body>
-                  </CardItem>
-                </Card>
-                <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('ForgotPassword')
-                  }>
-                  <Text style={styles.textLogin}>
-                    Forgot your password
-                    <Icon name="long-arrow-right" size={15} color="green" />
-                  </Text>
-                </TouchableOpacity>
-                <Button
-                  style={styles.btnLogin}
-                  onPress={handleSubmit}
-                  disabled={!isValid}
-                  block>
-                  <Text style={styles.btntext}>LOGIN</Text>
-                </Button>
-              </View>
-            )}
-          </Formik>
-        </ScrollView>
+        {this.props.isLoading === false ? (
+          <ScrollView>
+            <View>
+              <Text style={styles.text}>Login</Text>
+            </View>
+            <Formik
+              validationSchema={loginValidationSchema}
+              initialValues={{email: '', password: ''}}
+              onSubmit={(values) => this.doLogin(values)}>
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                isValid,
+                touched,
+              }) => (
+                <View style={styles.register}>
+                  <Card transparent>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="email"
+                          placeholder="Email Address"
+                          style={styles.textInput}
+                          onChangeText={handleChange('email')}
+                          onBlur={handleBlur('email')}
+                          value={values.email}
+                          keyboardType="email-address"
+                        />
+                        {touched.email && errors.email && (
+                          <Text style={styles.textError}>{errors.email}</Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <Card transparent>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="password"
+                          placeholder="Password"
+                          style={styles.textInput}
+                          onChangeText={handleChange('password')}
+                          onBlur={handleBlur('password')}
+                          value={values.password}
+                          secureTextEntry
+                        />
+                        {touched.password && errors.password && (
+                          <Text style={styles.textError}>
+                            {errors.password}
+                          </Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('ForgotPassword')
+                    }>
+                    <Text style={styles.textLogin}>
+                      Forgot your password
+                      <Icon name="long-arrow-right" size={15} color="green" />
+                    </Text>
+                  </TouchableOpacity>
+                  <Button
+                    style={styles.btnLogin}
+                    onPress={handleSubmit}
+                    disabled={!isValid}
+                    block>
+                    <Text style={styles.btntext}>LOGIN</Text>
+                  </Button>
+                </View>
+              )}
+            </Formik>
+          </ScrollView>
+        ) : (
+          <LoadingIndicator />
+        )}
       </View>
     );
   }
@@ -141,6 +149,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  isLoading: state.auth.isLoading,
 });
 const mapDispatchToProps = {
   loginAction,
