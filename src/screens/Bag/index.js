@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  Alert,
-  StyleSheet,
-  View,
-  Modal,
-  TouchableHighlight,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, View, FlatList} from 'react-native';
 import {Text, Header, Left, Right, Button} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -21,7 +14,6 @@ import CardProduct from '../../components/cardBag';
 const Bag = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [modalVisible, setModalVisible] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const detailCart = useSelector((state) => state.cart.data);
 
@@ -50,6 +42,7 @@ const Bag = () => {
               name={item.name}
               price={item.price}
               amount={item.amount}
+              id={item.id}
             />
           )}
         />
@@ -67,25 +60,6 @@ const Bag = () => {
           <Text>Check out</Text>
         </Button>
       </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableHighlight
-              style={{...styles.openButton, backgroundColor: '#ffffff'}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text>Delete from the list</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </Modal>
     </>
   );
 };
@@ -116,24 +90,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 50,
     backgroundColor: 'green',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   flat: {
     marginBottom: 220,

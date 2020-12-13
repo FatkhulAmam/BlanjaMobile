@@ -1,63 +1,107 @@
-/* eslint-disable no-undef */
 import React from 'react';
-import {View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Alert,
+} from 'react-native';
 import {Text, Right, Card} from 'native-base';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import {deleteCart, showMyCart} from '../redux/actions/product';
 class Item extends React.Component {
   state = {
     count: 0,
+    modalVisible: false,
   };
-  onPressInc = () => this.setState((prevCount) => prevCount + 1);
-  onPressDec = () => this.setState((prevCount) => prevCount - 1);
+  onPressInc = () => this.setState((count) => this.state.count + 1);
+  onPressDec = () => this.setState((count) => this.state.count - 1);
+
+  onDelete = () => {
+    this.setState((modalVisible) => (this.state.modalVisible = false));
+    this.props.deleteCart(this.props.token, this.props.id);
+  };
+
+  // componentDidUpdate = () => {
+  //   this.props.showMyCart(this.props.token);
+  // };
 
   render() {
     return (
-      <View style={styles.parent}>
-        <Card style={styles.cardBag}>
-          <Image style={styles.cardImage} source={this.props.image} />
-          <View>
-            <View style={styles.topCard}>
-              <Text style={styles.name}>{this.props.name}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}>
-                <Icon
-                  name="ellipsis-v"
-                  size={22}
-                  color="#8f8f8f"
-                  style={{marginTop: 10}}
-                />
-              </TouchableOpacity>
+      <>
+        <View style={styles.parent}>
+          <Card style={styles.cardBag}>
+            <Image style={styles.cardImage} source={this.props.image} />
+            <View>
+              <View style={styles.topCard}>
+                <Text style={styles.name}>{this.props.name}</Text>
+                <View>
+                  <TouchableOpacity
+                    style={styles.icon}
+                    onPress={() =>
+                      this.setState(
+                        (modalVisible) => (this.state.modalVisible = true),
+                      )
+                    }>
+                    <Icon name="ellipsis-v" size={22} color="#8f8f8f" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={styles.tipe}>
+                <Text note>
+                  color: <Text>red</Text>{' '}
+                </Text>
+                <Text note>
+                  sixe: <Text>s</Text>
+                </Text>
+              </View>
+              <View style={styles.btnCount}>
+                <TouchableOpacity style={styles.btn} onPress={this.onPressDec}>
+                  <Icon name="minus" size={15} color="#8f8f8f" />
+                </TouchableOpacity>
+                <Text style={styles.counter}>{this.props.amount}</Text>
+                <TouchableOpacity style={styles.btn} onPress={this.onPressInc}>
+                  <Icon name="plus" size={15} color="#8f8f8f" />
+                </TouchableOpacity>
+                <Text style={styles.price}>Rp. {this.props.price}</Text>
+              </View>
             </View>
-            <View style={styles.tipe}>
-              <Text note>
-                color: <Text>red</Text>{' '}
-              </Text>
-              <Text note>
-                sixe: <Text>s</Text>
-              </Text>
-            </View>
-            <View style={styles.btnCount}>
-              <TouchableOpacity style={styles.btn} onPress={this.onPressDec}>
-                <Icon name="minus" size={15} color="#8f8f8f" />
+            <Right />
+          </Card>
+        </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TouchableOpacity onPress={this.onDelete}>
+                <Text>Delete product</Text>
               </TouchableOpacity>
-              <Text style={styles.counter}>{this.props.amount}</Text>
-              <TouchableOpacity style={styles.btn} onPress={this.onPressInc}>
-                <Icon name="plus" size={15} color="#8f8f8f" />
-              </TouchableOpacity>
-              <Text style={styles.price}>{this.props.price}</Text>
             </View>
           </View>
-          <Right />
-        </Card>
-      </View>
+        </Modal>
+      </>
     );
   }
 }
 
-export default Item;
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+});
+const mapDispatchToProps = {
+  deleteCart,
+  showMyCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Item);
+
 const styles = StyleSheet.create({
   parent: {
     padding: 7,
@@ -93,19 +137,25 @@ const styles = StyleSheet.create({
   },
   counter: {
     margin: 10,
+    paddingTop: 8,
   },
   btn: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#e6e6e6',
     borderRadius: 50,
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
+    marginTop: 10,
   },
   price: {
-    fontSize: 20,
-    marginLeft: 25,
-    marginTop: 10,
+    marginLeft: 15,
+    marginTop: 20,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalView: {
     backgroundColor: 'white',
@@ -119,5 +169,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  icon: {
+    marginLeft: -60,
+    marginTop: 10,
   },
 });

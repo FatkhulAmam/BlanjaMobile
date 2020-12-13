@@ -36,6 +36,11 @@ const getCategory = (data) => ({
   payload: http().get('/category', qs.stringify(data)),
 });
 
+const deleteCart = (token, id) => ({
+  type: 'DEL_CART',
+  payload: http(token).delete(`cart/${id}`),
+});
+
 export {
   getNewProductAction,
   getDetailProduct,
@@ -44,4 +49,5 @@ export {
   getSearchProductAction,
   getProductCategory,
   getCategory,
+  deleteCart,
 };
