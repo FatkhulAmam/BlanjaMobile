@@ -20,7 +20,6 @@ import {getProductCategory} from '../../redux/actions/product';
 const Catalog = ({navigation, route}) => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
-  const productBy = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getProductCategory(route.params));

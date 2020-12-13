@@ -3,14 +3,11 @@ import {
   Alert,
   StyleSheet,
   View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
   Modal,
   TouchableHighlight,
   FlatList,
 } from 'react-native';
-import {Text, Header, Left, Body, Right, Button, Card} from 'native-base';
+import {Text, Header, Left, Right, Button} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {API_URL} from '@env';
@@ -30,8 +27,7 @@ const Bag = () => {
 
   useEffect(() => {
     dispatch(showMyCart(token));
-    console.log(detailCart);
-  }, [detailCart, dispatch, token]);
+  }, [dispatch, token]);
 
   return (
     <>
@@ -42,22 +38,21 @@ const Bag = () => {
           </Button>
         </Right>
       </Header>
+      <Text style={styles.tittle}>My Bag</Text>
       <View style={styles.parent}>
-        <Text style={styles.tittle}>My Bag</Text>
-        <View>
-          <FlatList
-            data={detailCart}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <CardProduct
-                image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
-                name={item.name}
-                price={item.price}
-                amount={item.amount}
-              />
-            )}
-          />
-        </View>
+        <FlatList
+          style={styles.flat}
+          data={detailCart}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => (
+            <CardProduct
+              image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
+              name={item.name}
+              price={item.price}
+              amount={item.amount}
+            />
+          )}
+        />
       </View>
       <View style={styles.btnCheck}>
         <View style={styles.amount}>
@@ -139,5 +134,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  flat: {
+    marginBottom: 220,
   },
 });
