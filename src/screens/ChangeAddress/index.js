@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, TextInput, ScrollView} from 'react-native';
+import {StyleSheet, View, TextInput, ScrollView, Alert} from 'react-native';
 import {
   Header,
   Left,
@@ -11,43 +11,48 @@ import {
   CardItem,
   Body,
   Form,
-  StatusBar,
 } from 'native-base';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {getAddressIdAction} from '../../redux/actions/address';
+import {getAddressIdAction, updateAddrress} from '../../redux/actions/address';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const loginValidationSchema = yup.object().shape({
-  name: yup
-    .string()
-    .matches(/(\w.+\s).+/, 'Enter at least 2 names')
-    .required('Recipient name is required'),
-  home: yup.string().required('home is required'),
-  address: yup.string().required('address is required'),
-  city: yup.string().required('city is required'),
-  state: yup.string().required('state is required'),
-  zipCode: yup
-    .number()
-    .integer('Please provide integer')
-    .required('zipCode is required'),
-  phone: yup.number().required('phone is required'),
+  name: yup.string().matches(/(\w.+\s).+/, 'Enter at least 2 names'),
+  home: yup.string(),
+  address: yup.string(),
+  city: yup.string(),
+  state: yup.string(),
+  zipCode: yup.number().integer('Please provide integer'),
+  phone: yup.number().integer('Please provide integer'),
 });
 
-const AddAddress = ({navigation, route}) => {
+const ChangeAddress = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
-  const AddressId = useSelector((state) => state.addressId.data[0]);
 
   useEffect(() => {
     dispatch(getAddressIdAction(token, route.params));
   }, [dispatch, token, route.params]);
 
+  const token = useSelector((state) => state.auth.token);
+  const addressData = useSelector((state) => state.address.dataAddressById[0]);
+  const addressIndex = useSelector((state) => state.address);
+
+  const onUpdateAddress = async (data) => {
+    await dispatch(updateAddrress(token, addressData.id, data));
+    if (addressIndex.isError) {
+      Alert.alert(addressIndex.message);
+    } else {
+      Alert.alert(addressIndex.message);
+      navigation.navigate('ShippingAddress');
+    }
+  };
+
   return (
     <>
-      <Header style={styles.header}>
-        <StatusBar backgroundColor={'green'} />
+      <Header style={styles.header} transparent>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon name="angle-left" size={30} />
@@ -57,19 +62,18 @@ const AddAddress = ({navigation, route}) => {
           <Title style={styles.textHead}>Change Address</Title>
         </Body>
       </Header>
-      <View style={styles.parent}>
+      {addressIndex.isLoading === false ? (
         <Formik
           validationSchema={loginValidationSchema}
           initialValues={{
-            name: '',
-            address: '',
-            home: '',
-            zipCode: '',
-            city: '',
-            state: '',
-            phone: '',
+            name: addressData.recipients_name,
+            address: addressData.address,
+            home: addressData.home,
+            zipCode: `${addressData.postal_code}`,
+            city: addressData.city,
+            phone: `${addressData.recipients_phone}`,
           }}
-          onSubmit={(values) => console.log(values)}>
+          onSubmit={(values) => onUpdateAddress(values)}>
           {({
             handleChange,
             handleBlur,
@@ -77,115 +81,119 @@ const AddAddress = ({navigation, route}) => {
             values,
             errors,
             isValid,
+            touched,
           }) => (
-            <ScrollView>
-              <Form>
-                <Card>
-                  <CardItem>
-                    <Body>
-                      <TextInput
-                        name="home"
-                        placeholder="home/ office"
-                        style={styles.textInput}
-                        onChangeText={handleChange('home')}
-                        onBlur={handleBlur('home')}
-                        value={AddressId.home}
-                      />
-                      {errors.home && (
-                        <Text style={styles.textError}>{errors.home}</Text>
-                      )}
-                      <TextInput
-                        name="name"
-                        placeholder="Recipient name"
-                        style={styles.textInput}
-                        onChangeText={handleChange('name')}
-                        onBlur={handleBlur('name')}
-                        value={AddressId.recipients_name}
-                      />
-                      {errors.name && (
-                        <Text style={styles.textError}>{errors.name}</Text>
-                      )}
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Card>
-                  <CardItem>
-                    <Body>
-                      <TextInput
-                        name="address"
-                        placeholder="address"
-                        style={styles.textInput}
-                        onChangeText={handleChange('address')}
-                        onBlur={handleBlur('address')}
-                        value={AddressId.address}
-                      />
-                      {errors.address && (
-                        <Text style={styles.textError}>{errors.address}</Text>
-                      )}
-                      <TextInput
-                        name="city"
-                        placeholder="city"
-                        style={styles.textInput}
-                        onChangeText={handleChange('city')}
-                        onBlur={handleBlur('city')}
-                        value={AddressId.city}
-                      />
-                      {errors.city && (
-                        <Text style={styles.textError}>{errors.city}</Text>
-                      )}
-                      <TextInput
-                        name="zipCode"
-                        placeholder="zipCode"
-                        style={styles.textInput}
-                        onChangeText={handleChange('zipCode')}
-                        onBlur={handleBlur('zipCode')}
-                        value={parseInt(AddressId.postal_code)}
-                      />
-                      {errors.zipCode && (
-                        <Text style={styles.textError}>{errors.zipCode}</Text>
-                      )}
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Card>
-                  <CardItem>
-                    <Body>
-                      <TextInput
-                        name="phone"
-                        placeholder="phone"
-                        style={styles.textInput}
-                        onChangeText={handleChange('phone')}
-                        onBlur={handleBlur('phone')}
-                        value={AddressId.recipients_phone}
-                      />
-                      {errors.phone && (
-                        <Text style={styles.textError}>{errors.phone}</Text>
-                      )}
-                    </Body>
-                  </CardItem>
-                </Card>
-                <Button
-                  style={styles.btn}
-                  onPress={handleSubmit}
-                  disabled={!isValid}
-                  block>
-                  <Text style={styles.btntext}>Add Address</Text>
-                </Button>
-              </Form>
-            </ScrollView>
+            <View style={styles.parent}>
+              <ScrollView>
+                <Form>
+                  <Card transparent>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="home"
+                          placeholder="home/ office"
+                          style={styles.textInput}
+                          onChangeText={handleChange('home')}
+                          onBlur={handleBlur('home')}
+                          value={values.home}
+                        />
+                        {errors.home && touched.home && (
+                          <Text style={styles.textError}>{errors.home}</Text>
+                        )}
+                        <TextInput
+                          name="name"
+                          placeholder="Recipient name"
+                          style={styles.textInput}
+                          onChangeText={handleChange('name')}
+                          onBlur={handleBlur('name')}
+                          value={values.name}
+                        />
+                        {errors.name && touched.name && (
+                          <Text style={styles.textError}>{errors.name}</Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <Card transparent>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="address"
+                          placeholder="address"
+                          style={styles.textInput}
+                          onChangeText={handleChange('address')}
+                          onBlur={handleBlur('address')}
+                          value={values.address}
+                        />
+                        {errors.address && touched.address && (
+                          <Text style={styles.textError}>{errors.address}</Text>
+                        )}
+                        <TextInput
+                          name="city"
+                          placeholder="city"
+                          style={styles.textInput}
+                          onChangeText={handleChange('city')}
+                          onBlur={handleBlur('city')}
+                          value={values.city}
+                        />
+                        {errors.city && touched.city && (
+                          <Text style={styles.textError}>{errors.city}</Text>
+                        )}
+                        <TextInput
+                          name="zipCode"
+                          placeholder="zipCode"
+                          style={styles.textInput}
+                          onChangeText={handleChange('zipCode')}
+                          onBlur={handleBlur('zipCode')}
+                          value={values.zipCode}
+                        />
+                        {errors.zipCode && touched.zipCode && (
+                          <Text style={styles.textError}>{errors.zipCode}</Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <Card transparent>
+                    <CardItem>
+                      <Body>
+                        <TextInput
+                          name="phone"
+                          placeholder="phone"
+                          style={styles.textInput}
+                          onChangeText={handleChange('phone')}
+                          onBlur={handleBlur('phone')}
+                          value={values.phone}
+                        />
+                        {errors.phone && touched.phone && (
+                          <Text style={styles.textError}>{errors.phone}</Text>
+                        )}
+                      </Body>
+                    </CardItem>
+                  </Card>
+                  <Button
+                    style={styles.btn}
+                    onPress={handleSubmit}
+                    disabled={!isValid}
+                    block>
+                    <Text style={styles.btntext}>Add Address</Text>
+                  </Button>
+                </Form>
+              </ScrollView>
+            </View>
           )}
         </Formik>
-      </View>
+      ) : (
+        <LoadingIndicator />
+      )}
     </>
   );
 };
 
-export default AddAddress;
+export default ChangeAddress;
 
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#FFFFFF',
-    marginTop: 20,
   },
   textHead: {
     color: '#000000',

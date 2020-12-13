@@ -1,9 +1,10 @@
 const initialState = {
   dataAddress: [],
-  dataAddressById: [],
+  dataAddressById: {},
   isLoading: false,
   isError: false,
   isMaked: false,
+  isUpdated: false,
   message: '',
 };
 
@@ -76,6 +77,31 @@ export default (state = initialState, action) => {
         isMaked: true,
         isLoading: false,
         message: 'add address success',
+      };
+    }
+    // update adress
+    case 'UPDATE_ADDRESS_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        message: 'pending',
+      };
+    }
+    case 'UPDATE_ADDRESS_REJECTED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        message: 'update address rejected',
+      };
+    }
+    case 'UPDATE_ADDRESS_FULFILLED': {
+      return {
+        ...state,
+        isError: false,
+        isUpdated: true,
+        isLoading: false,
+        message: 'update address success',
       };
     }
     default: {
