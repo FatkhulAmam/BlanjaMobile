@@ -11,9 +11,9 @@ const getAddressIdAction = (token, id) => ({
   payload: http(token).get(`user/address/${id}`),
 });
 
-const updateAddrress = (token, id, data) => ({
+const updateAddrress = (token, data, id) => ({
   type: 'UPDATE_ADDRESS',
-  payload: http(token).get(`user/address/${id}`, qs.stringify(data)),
+  payload: http(token).patch(`user/address/${id}`, qs.stringify(data)),
 });
 
 const makeAddress = (

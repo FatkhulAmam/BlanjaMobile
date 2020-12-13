@@ -16,17 +16,21 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {getAddressIdAction, updateAddrress} from '../../redux/actions/address';
+import {
+  getAddressIdAction,
+  updateAddrress,
+  getAddressAction,
+} from '../../redux/actions/address';
 import LoadingIndicator from '../../components/ModalLoading';
 
 const loginValidationSchema = yup.object().shape({
-  name: yup.string().matches(/(\w.+\s).+/, 'Enter at least 2 names'),
+  recipients_name: yup.string().matches(/(\w.+\s).+/, 'Enter at least 2 names'),
   home: yup.string(),
   address: yup.string(),
   city: yup.string(),
   state: yup.string(),
-  zipCode: yup.number().integer('Please provide integer'),
-  phone: yup.number().integer('Please provide integer'),
+  postal_code: yup.number().integer('Please provide integer'),
+  recipients_phone: yup.number().integer('Please provide integer'),
 });
 
 const ChangeAddress = ({navigation, route}) => {
@@ -41,12 +45,13 @@ const ChangeAddress = ({navigation, route}) => {
   const addressIndex = useSelector((state) => state.address);
 
   const onUpdateAddress = async (data) => {
-    await dispatch(updateAddrress(token, addressData.id, data));
-    if (addressIndex.isError) {
+    await dispatch(updateAddrress(token, data, addressData.id));
+    if (addressIndex.isError === true) {
       Alert.alert(addressIndex.message);
     } else {
       Alert.alert(addressIndex.message);
       navigation.navigate('ShippingAddress');
+      return dispatch(getAddressAction(token));
     }
   };
 
@@ -66,12 +71,12 @@ const ChangeAddress = ({navigation, route}) => {
         <Formik
           validationSchema={loginValidationSchema}
           initialValues={{
-            name: addressData.recipients_name,
+            recipients_name: addressData.recipients_name,
             address: addressData.address,
             home: addressData.home,
-            zipCode: `${addressData.postal_code}`,
+            postal_code: `${addressData.postal_code}`,
             city: addressData.city,
-            phone: `${addressData.recipients_phone}`,
+            recipients_phone: `${addressData.recipients_phone}`,
           }}
           onSubmit={(values) => onUpdateAddress(values)}>
           {({
@@ -101,15 +106,17 @@ const ChangeAddress = ({navigation, route}) => {
                           <Text style={styles.textError}>{errors.home}</Text>
                         )}
                         <TextInput
-                          name="name"
+                          name="recipients_name"
                           placeholder="Recipient name"
                           style={styles.textInput}
-                          onChangeText={handleChange('name')}
-                          onBlur={handleBlur('name')}
-                          value={values.name}
+                          onChangeText={handleChange('recipients_name')}
+                          onBlur={handleBlur('recipients_name')}
+                          value={values.recipients_name}
                         />
-                        {errors.name && touched.name && (
-                          <Text style={styles.textError}>{errors.name}</Text>
+                        {errors.recipients_name && touched.recipients_name && (
+                          <Text style={styles.textError}>
+                            {errors.recipients_name}
+                          </Text>
                         )}
                       </Body>
                     </CardItem>
@@ -140,15 +147,17 @@ const ChangeAddress = ({navigation, route}) => {
                           <Text style={styles.textError}>{errors.city}</Text>
                         )}
                         <TextInput
-                          name="zipCode"
-                          placeholder="zipCode"
+                          name="postal_code"
+                          placeholder="postal_code"
                           style={styles.textInput}
-                          onChangeText={handleChange('zipCode')}
-                          onBlur={handleBlur('zipCode')}
-                          value={values.zipCode}
+                          onChangeText={handleChange('postal_code')}
+                          onBlur={handleBlur('postal_code')}
+                          value={values.postal_code}
                         />
-                        {errors.zipCode && touched.zipCode && (
-                          <Text style={styles.textError}>{errors.zipCode}</Text>
+                        {errors.postal_code && touched.postal_code && (
+                          <Text style={styles.textError}>
+                            {errors.postal_code}
+                          </Text>
                         )}
                       </Body>
                     </CardItem>
@@ -157,16 +166,19 @@ const ChangeAddress = ({navigation, route}) => {
                     <CardItem>
                       <Body>
                         <TextInput
-                          name="phone"
-                          placeholder="phone"
+                          name="recipients_phone"
+                          placeholder="recipients_phone"
                           style={styles.textInput}
-                          onChangeText={handleChange('phone')}
-                          onBlur={handleBlur('phone')}
-                          value={values.phone}
+                          onChangeText={handleChange('phrecipients_phoneone')}
+                          onBlur={handleBlur('recipients_phone')}
+                          value={values.recipients_phone}
                         />
-                        {errors.phone && touched.phone && (
-                          <Text style={styles.textError}>{errors.phone}</Text>
-                        )}
+                        {errors.recipients_phone &&
+                          touched.recipients_phone && (
+                            <Text style={styles.textError}>
+                              {errors.recipients_phone}
+                            </Text>
+                          )}
                       </Body>
                     </CardItem>
                   </Card>
