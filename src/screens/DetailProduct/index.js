@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import {Header, Left, Body, Title, Text, Button, Right} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
@@ -43,6 +44,7 @@ const DetailProduct = ({route}) => {
   return (
     <>
       <Header style={styles.header} transparent>
+        <StatusBar backgroundColor={'green'} />
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon name="angle-left" size={30} />
         </Button>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  StatusBar,
 } from 'react-native';
 import {Header, Text, Button, Card, CardItem, Body} from 'native-base';
 import {connect} from 'react-redux';
@@ -50,6 +51,7 @@ class Search extends React.Component {
     return (
       <>
         <Header style={styles.header} transparent>
+          <StatusBar backgroundColor={'green'} />
           <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon name="angle-left" size={30} />
           </Button>

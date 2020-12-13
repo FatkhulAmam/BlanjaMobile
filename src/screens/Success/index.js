@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, StatusBar} from 'react-native';
 import {Button, Header, Text, Left, Body, Title} from 'native-base';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,6 +10,7 @@ const Notification = ({navigation}) => {
     <>
       <View>
         <Header style={styles.header} transparent>
+          <StatusBar backgroundColor={'green'} />
           <Left>
             <Button transparent onPress={() => navigation.goBack()}>
               <Icon name="angle-left" size={30} />

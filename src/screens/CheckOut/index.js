@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   CardItem,
+  StatusBar,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -18,6 +19,7 @@ const CheckOut = ({navigation}) => {
   return (
     <>
       <Header style={styles.header}>
+        <StatusBar backgroundColor={'green'} />
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon name="angle-left" size={30} />
         </Button>

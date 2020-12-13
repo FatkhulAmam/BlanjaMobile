@@ -7,6 +7,7 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -55,6 +56,7 @@ class Login extends Component {
       <View style={styles.parent}>
         <View>
           <Header transparent>
+            <StatusBar backgroundColor={'green'} />
             <Left>
               <Button
                 transparent

@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import {
   Header,
@@ -65,6 +66,7 @@ const ShippingAddress = ({navigation}) => {
   return (
     <>
       <Header style={styles.header}>
+        <StatusBar backgroundColor={'green'} />
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon name="angle-left" size={30} />

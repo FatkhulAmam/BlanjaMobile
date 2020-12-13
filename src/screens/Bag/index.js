@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View, FlatList, StatusBar} from 'react-native';
 import {Text, Header, Left, Right, Button} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -24,6 +24,7 @@ const Bag = () => {
   return (
     <>
       <Header style={styles.header} transparent>
+        <StatusBar backgroundColor={'green'} />
         <Right>
           <Button transparent onPress={() => navigation.navigate('Search')}>
             <Icon name="search" size={22} />

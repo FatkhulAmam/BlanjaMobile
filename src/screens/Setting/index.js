@@ -7,6 +7,7 @@ import {
   Switch,
   TextInput,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {
   Header,
@@ -69,6 +70,7 @@ const Setting = ({navigation}) => {
         }) => (
           <View>
             <Header style={styles.header} transparent>
+              <StatusBar backgroundColor={'green'} />
               <Left>
                 <Button transparent onPress={() => navigation.goBack()}>
                   <Icon name="angle-left" size={30} />

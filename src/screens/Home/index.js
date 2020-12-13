@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, View, Image, ScrollView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  ScrollView,
+  FlatList,
+  StatusBar,
+} from 'react-native';
 import {Text, Button, Right} from 'native-base';
 import {connect} from 'react-redux';
 import {API_URL} from '@env';
@@ -23,6 +30,7 @@ class Home extends React.Component {
     return (
       <>
         <ScrollView>
+          <StatusBar translucent backgroundColor="transparent" />
           <View style={styles.banner}>
             <Image style={styles.image} source={BigBanner} />
             <Button

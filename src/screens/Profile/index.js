@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ToastAndroid,
+  StatusBar,
 } from 'react-native';
 import {Header, Body, Text, Right, Button, Card, CardItem} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
@@ -74,6 +75,7 @@ const Profile = ({navigation}) => {
   return (
     <>
       <Header style={styles.header} transparent>
+        <StatusBar backgroundColor={'green'} />
         <Right>
           <Button transparent onPress={() => navigation.navigate('Search')}>
             <Icon name="search" size={22} />

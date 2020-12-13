@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
 import {Header, Title, Body, Button, Text, CardItem, Card} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -7,6 +13,7 @@ const Filter = ({navigation}) => {
   return (
     <>
       <Header style={styles.header} noLeft>
+        <StatusBar backgroundColor={'green'} />
         <Button transparent>
           <Icon
             name="angle-left"

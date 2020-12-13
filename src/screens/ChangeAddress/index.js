@@ -11,6 +11,7 @@ import {
   CardItem,
   Body,
   Form,
+  StatusBar,
 } from 'native-base';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -46,6 +47,7 @@ const AddAddress = ({navigation, route}) => {
   return (
     <>
       <Header style={styles.header}>
+        <StatusBar backgroundColor={'green'} />
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon name="angle-left" size={30} />

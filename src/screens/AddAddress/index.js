@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   CardItem,
+  StatusBar,
 } from 'native-base';
 import {connect} from 'react-redux';
 import * as yup from 'yup';
@@ -56,6 +57,7 @@ class AddAddress extends React.Component {
     return (
       <>
         <Header style={styles.header}>
+          <StatusBar backgroundColor={'green'} />
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={30} />

@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import {Text, Header, Left, Body, Right, Button, Title} from 'native-base';
 import {connect} from 'react-redux';
 
@@ -28,6 +34,7 @@ class Shop extends React.Component {
     return (
       <>
         <Header style={styles.header} transparent>
+          <StatusBar backgroundColor={'green'} />
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name="angle-left" size={30} />

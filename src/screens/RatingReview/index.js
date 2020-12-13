@@ -1,5 +1,5 @@
 import React, {createRef, useState} from 'react';
-import {StyleSheet, View, CheckBox, Image} from 'react-native';
+import {StyleSheet, View, CheckBox, Image, StatusBar} from 'react-native';
 import {
   Header,
   Text,
@@ -24,6 +24,7 @@ const Filter = ({navigation}) => {
   return (
     <>
       <Header style={styles.header} transparent>
+        <StatusBar backgroundColor={'green'} />
         <Button transparent>
           <Icon
             name="angle-left"

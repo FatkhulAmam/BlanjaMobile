@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {Text, Header, Body, Button, Title, Card, CardItem} from 'native-base';
 import ActionSheet from 'react-native-actions-sheet';
@@ -29,6 +30,7 @@ const Catalog = ({navigation, route}) => {
   return (
     <>
       <Header style={styles.header} noLeft transparent>
+        <StatusBar backgroundColor={'green'} />
         <Button transparent>
           <Icon
             name="angle-left"
