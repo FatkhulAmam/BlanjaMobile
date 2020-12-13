@@ -1,6 +1,7 @@
 const initialState = {
   isLogin: false,
   isError: false,
+  isLoading: false,
   token: '',
   message: '',
 };

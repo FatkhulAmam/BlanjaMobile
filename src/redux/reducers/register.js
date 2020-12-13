@@ -1,6 +1,7 @@
 const initialState = {
   isRegister: false,
   isError: false,
+  isLoading: false,
   message: '',
 };
 

@@ -23,10 +23,9 @@ const Catalog = ({navigation, route}) => {
 
   useEffect(() => {
     dispatch(getProductCategory(route.params));
-    console.log(route.params);
-  });
+  }, [dispatch, route.params]);
 
-  const {isLoading, data, isError, alertMsg} = product;
+  const {isLoading, allData, isError} = product;
   return (
     <>
       <Header style={styles.header} noLeft transparent>
@@ -70,8 +69,8 @@ const Catalog = ({navigation, route}) => {
       <ScrollView>
         {!isLoading &&
           !isError &&
-          data.length !== 0 &&
-          data.map((item) => {
+          allData.length !== 0 &&
+          allData.map((item) => {
             return (
               <TouchableOpacity
                 onPress={() => navigation.navigate('DetailProduct', item.id)}>
@@ -107,8 +106,6 @@ const Catalog = ({navigation, route}) => {
             );
           })}
       </ScrollView>
-      {isLoading && !isError && <div>Loading</div>}
-      {isError && alertMsg !== '' && <div>{alertMsg}</div>}
       <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
         <View style={styles.border} />
         <View>

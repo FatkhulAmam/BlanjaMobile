@@ -26,7 +26,7 @@ const DetailProduct = ({route}) => {
   const onPressDec = () => setCount((prevCount) => prevCount - 1);
   const token = useSelector((state) => state.auth.token);
   const product = useSelector((state) => state.product);
-  const detail = useSelector((state) => state.detailProduct.data);
+  const detail = useSelector((state) => state.product.dataDetail);
   const [itemsId, setItemId] = useState(detail.id);
   const [amount, setAmount] = useState(1);
 

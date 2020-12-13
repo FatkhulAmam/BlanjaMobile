@@ -23,7 +23,7 @@ const Bag = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const token = useSelector((state) => state.auth.token);
-  const detailCart = useSelector((state) => state.myCart.data);
+  const detailCart = useSelector((state) => state.cart.data);
 
   useEffect(() => {
     dispatch(showMyCart(token));

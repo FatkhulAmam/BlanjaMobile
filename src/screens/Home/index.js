@@ -19,7 +19,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const {data} = this.props.productState;
+    const {allData} = this.props.productState;
     return (
       <>
         <ScrollView>
@@ -42,7 +42,7 @@ class Home extends React.Component {
             <View>
               <FlatList
                 horizontal
-                data={data}
+                data={allData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item, index}) => (
                   <CardProduct
@@ -67,7 +67,7 @@ class Home extends React.Component {
             <View>
               <FlatList
                 horizontal
-                data={data}
+                data={allData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item, index}) => (
                   <CardProduct
