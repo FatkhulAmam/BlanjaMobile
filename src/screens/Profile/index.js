@@ -1,17 +1,37 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import {Header, Body, Text, Right, Button, Card, CardItem} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import {API_URL} from '@env';
 
-import {getProfile} from '../../redux/actions/profile';
 import Avatar from '../../assets/images/avatar.png';
 const options = {
   title: 'my picture',
   takePhotoButtonTitle: 'Take Photo',
   chooseFromLibraryButtonTitle: 'Choose Photo',
+};
+
+const showToastImg = () => {
+  ToastAndroid.showWithGravity(
+    'Not an image (jpg/jpeg/png)',
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  );
+};
+
+const showToastSize = () => {
+  ToastAndroid.showWithGravity(
+    'image to large(under 500kb)',
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  );
 };
 
 const Profile = ({navigation}) => {
@@ -28,13 +48,25 @@ const Profile = ({navigation}) => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        setAvatarSource(response.uri);
-        const form = new FormData();
-        form.append('pictures', {
-          uri: response.uri,
-          name: response.fileName,
-          type: response.type,
-        });
+        if (response.fileSize <= 500 * 500) {
+          if (
+            `${response.type}` === 'image/jpg' ||
+            'image/jpeg' ||
+            'image/png'
+          ) {
+            setAvatarSource(response.uri);
+            const form = new FormData();
+            form.append('pictures', {
+              uri: response.uri,
+              name: response.fileName,
+              type: response.type,
+            });
+          } else {
+            showToastImg();
+          }
+        } else {
+          showToastSize();
+        }
       }
     });
   };
