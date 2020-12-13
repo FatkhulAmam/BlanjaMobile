@@ -1,59 +1,10 @@
 import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  StatusBar,
-} from 'react-native';
-import {
-  Header,
-  Left,
-  Body,
-  Title,
-  Text,
-  Button,
-  Card,
-  CardItem,
-} from 'native-base';
+import {StyleSheet, View, TextInput, FlatList, StatusBar} from 'react-native';
+import {Header, Left, Body, Title, Text, Button} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getAddressAction} from '../../redux/actions/address';
-
-class Item extends React.Component {
-  render() {
-    return (
-      <View>
-        <View style={styles.renderParent}>
-          <Card style={styles.card}>
-            <CardItem style={styles.cardItem}>
-              <Body>
-                <View style={styles.text}>
-                  <Text>{this.props.name}</Text>
-                  <Left />
-                  <TouchableOpacity onPress={this.props.movePage}>
-                    <Text style={styles.change}>Change</Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text>
-                    {this.props.home}, {this.props.city}
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    {this.props.phone}, {this.props.address}
-                  </Text>
-                </View>
-              </Body>
-            </CardItem>
-          </Card>
-        </View>
-      </View>
-    );
-  }
-}
+import CardAddress from '../../components/CardAddress';
 
 const ShippingAddress = ({navigation}) => {
   const token = useSelector((state) => state.auth.token);
@@ -86,10 +37,10 @@ const ShippingAddress = ({navigation}) => {
         </View>
         <View>
           <FlatList
-            data={address.data}
+            data={address.dataAddress}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
-              <Item
+              <CardAddress
                 name={item.recipients_name}
                 home={item.home}
                 city={item.city}
@@ -150,24 +101,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  card: {
-    marginTop: 20,
-    borderRadius: 15,
-    padding: 5,
-  },
-  cardItem: {
-    borderRadius: 15,
-  },
   tittle: {
     fontSize: 40,
     fontWeight: 'bold',
-  },
-  text: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  change: {
-    color: '#bf000d',
   },
   btn: {
     marginTop: 10,
