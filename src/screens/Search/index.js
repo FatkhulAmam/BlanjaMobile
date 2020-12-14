@@ -15,29 +15,6 @@ import {API_URL} from '@env';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
 import {getSearchProductAction} from '../../redux/actions/product';
-
-class Item extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity>
-        <View style={styles.renderParent}>
-          <Card transparent>
-            <CardItem>
-              <Body>
-                <Image source={photo} />
-                <Text>{this.props.date}</Text>
-                <Text note>{this.props.category}</Text>
-                <Text style={styles.renderText}>{this.props.name}</Text>
-                <Text>{this.props.price}</Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
-
 class Search extends React.Component {
   state = {
     keyword: '',
@@ -180,7 +157,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 14,
     right: 20,
-  },parent: {
+  },
+  parent: {
     backgroundColor: '#fafafa',
     width: 'auto',
   },
