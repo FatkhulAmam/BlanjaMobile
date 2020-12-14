@@ -4,12 +4,13 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  FlatList,
   Image,
   StatusBar,
+  ScrollView,
 } from 'react-native';
 import {Header, Text, Button, Card, CardItem, Body} from 'native-base';
 import {connect} from 'react-redux';
+import {API_URL} from '@env';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
@@ -47,7 +48,13 @@ class Search extends React.Component {
   };
 
   render() {
-    const {data} = this.props.search;
+    const {
+      dataSearch,
+      isLoading,
+      allData,
+      isError,
+      message,
+    } = this.props.search;
     return (
       <>
         <Header style={styles.header} transparent>
@@ -68,27 +75,87 @@ class Search extends React.Component {
             </View>
           </Body>
         </Header>
-        <View>
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <Item
-                date={item.input_date}
-                category={item.category_name}
-                name={item.name}
-                price={item.price}
-              />
-            )}
-          />
-        </View>
+        <ScrollView>
+          {isLoading === false &&
+            (dataSearch !== ''
+              ? dataSearch.length !== 0
+              : allData.length !== 0) &&
+            (dataSearch !== '' ? dataSearch : allData).map((item) => {
+              return (
+                <View style={styles.parent} key={item.id}>
+                  <View style={styles.CardProduct}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('DetailProduct', item.id)
+                      }>
+                      <Card transparent>
+                        <CardItem style={styles.cardItem}>
+                          <Body>
+                            <Image
+                              style={styles.productImg}
+                              source={
+                                item.url
+                                  ? {uri: `${API_URL}${item.url}`}
+                                  : photo
+                              }
+                            />
+                            <View style={styles.star}>
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                            </View>
+                            <Text style={styles.name}>{item.name}</Text>
+                            <Text note>{item.category_name}</Text>
+                            <Text style={styles.price}>Rp. {item.price}</Text>
+                          </Body>
+                        </CardItem>
+                      </Card>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('DetailProduct', item.id)
+                      }>
+                      <Card transparent>
+                        <CardItem style={styles.cardItem}>
+                          <Body>
+                            <Image
+                              style={styles.productImg}
+                              source={
+                                item.url
+                                  ? {uri: `${API_URL}${item.url}`}
+                                  : photo
+                              }
+                            />
+                            <View style={styles.star}>
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                              <Icon name="star-o" size={18} />
+                            </View>
+                            <Text style={styles.name}>{item.name}</Text>
+                            <Text note>{item.category_name}</Text>
+                            <Text style={styles.price}>Rp. {item.price}</Text>
+                          </Body>
+                        </CardItem>
+                      </Card>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })}
+          {isLoading === true && isError === false && <Text>Loading</Text>}
+          {isError === true && message !== '' && <Text>{message}</Text>}
+        </ScrollView>
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  search: state.search,
+  search: state.product,
 });
 const mapDispatchToProps = {
   getSearchProductAction,
@@ -113,5 +180,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 14,
     right: 20,
+  },parent: {
+    backgroundColor: '#fafafa',
+    width: 'auto',
+  },
+  productImg: {
+    width: 150,
+    height: 200,
+  },
+  star: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  name: {
+    fontSize: 23,
+    fontWeight: 'bold',
+  },
+  price: {
+    fontSize: 18,
+  },
+  menu: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+  },
+  cardItem: {
+    width: 170,
+    backgroundColor: '#fafafa',
+  },
+  CardProduct: {
+    flexDirection: 'row',
   },
 });

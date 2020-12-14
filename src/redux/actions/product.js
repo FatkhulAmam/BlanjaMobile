@@ -31,6 +31,11 @@ const getProductCategory = (idCategory) => ({
   payload: http().get(`product/?search[category]=${idCategory}`),
 });
 
+const getSortProduct = (sortKey, sortValue) => ({
+  type: 'CATEGORY_DETAIL',
+  payload: http().get(`product/?sort[${sortKey}]=${sortValue}`),
+});
+
 const getCategory = (data) => ({
   type: 'GET_CATEGORY',
   payload: http().get('/category', qs.stringify(data)),
@@ -50,4 +55,5 @@ export {
   getProductCategory,
   getCategory,
   deleteCart,
+  getSortProduct,
 };

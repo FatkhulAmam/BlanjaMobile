@@ -1,4 +1,4 @@
-import React, {createRef, useEffect} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   StyleSheet,
@@ -16,7 +16,7 @@ const actionSheetRef = createRef();
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
-import {getProductCategory} from '../../redux/actions/product';
+import {getProductCategory, getSortProduct} from '../../redux/actions/product';
 
 const Catalog = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -25,6 +25,19 @@ const Catalog = ({navigation, route}) => {
   useEffect(() => {
     dispatch(getProductCategory(route.params));
   }, [dispatch, route.params]);
+
+  const getNew = async () => {
+    await dispatch(getSortProduct('input_date', 'desc'));
+    navigation.navigate('Catalog');
+  };
+  const priceLow = async () => {
+    await dispatch(getSortProduct('price', 'asc'));
+    navigation.navigate('Catalog');
+  };
+  const priceHight = async () => {
+    await dispatch(getSortProduct('price', 'desc'));
+    navigation.navigate('Catalog');
+  };
 
   const {
     isLoading,
@@ -152,16 +165,16 @@ const Catalog = ({navigation, route}) => {
           <TouchableOpacity style={styles.btnSort} block>
             <Text style={styles.btntext}>Poppular</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSort} block>
+          <TouchableOpacity style={styles.btnSort} block onPress={getNew}>
             <Text style={styles.btntext}>Newest</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnSort} block>
             <Text style={styles.btntext}>Custtommer Review</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSort} block>
+          <TouchableOpacity style={styles.btnSort} bloc onPress={priceHight}>
             <Text style={styles.btntext}>Price: Lowes to High</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSort} block>
+          <TouchableOpacity style={styles.btnSort} block onPress={priceLow}>
             <Text style={styles.btntext}>Price: Hight to Lowes</Text>
           </TouchableOpacity>
         </View>

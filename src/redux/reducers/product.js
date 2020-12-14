@@ -55,6 +55,28 @@ export default (state = initialState, action) => {
         dataCategory: action.payload.data.data,
       };
     }
+    // sort product
+    // case 'SORT_PRODUCT_PENDING': {
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
+    // }
+    // case 'SORTPRODUCT_REJECTED': {
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     isError: true,
+    //     message: 'There is an error at request data',
+    //   };
+    // }
+    // case 'SORT_PRODUCT_FULFILLED': {
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     dataDetail: action.payload.data.data,
+    //   };
+    // }
     // search product
     case 'GET_SEARCH_PENDING': {
       return {
