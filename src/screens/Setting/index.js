@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from 'react-native';
 import {
   Header,
@@ -27,14 +28,11 @@ import ActionSheet from 'react-native-actions-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const actionSheetRef = createRef();
-import {editProfile} from '../../redux/actions/profile';
+import {editProfile, getProfile} from '../../redux/actions/profile';
 
 const loginValidationSchema = yup.object().shape({
-  user_name: yup
-    .string()
-    .matches(/(\w.+\s).+/, 'Enter at least 2 names')
-    .required('user name is required'),
-  birth: yup.string().required('birth date is required'),
+  user_name: yup.string().matches(/(\w.+\s).+/, 'Enter at least 2 names'),
+  birth: yup.string(),
 });
 
 const Setting = ({navigation}) => {
@@ -50,16 +48,26 @@ const Setting = ({navigation}) => {
 
   const token = useSelector((state) => state.auth.token);
   const profile = useSelector((state) => state.profile.result[0]);
+  const profileIndex = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+
+  const onChange = async (values) => {
+    await dispatch(editProfile(token, values.user_name, values.birth));
+    if (profileIndex.isError === true) {
+      Alert.alert(profile.message);
+    } else {
+      Alert.alert(profile.message);
+      navigation.navigate('MainApp');
+    }
+    return dispatch(getProfile(token));
+  };
 
   return (
     <>
       <Formik
         validationSchema={loginValidationSchema}
-        initialValues={{user_name: '', birth: ''}}
-        onSubmit={(values) =>
-          dispatch(editProfile(token, values.user_name, values.birth))
-        }>
+        initialValues={{user_name: profile.user_name, birth: profile.birth}}
+        onSubmit={(values) => onChange(values)}>
         {({
           handleChange,
           handleBlur,
@@ -67,6 +75,7 @@ const Setting = ({navigation}) => {
           values,
           errors,
           isValid,
+          touched,
         }) => (
           <View>
             <Header style={styles.header} transparent>
@@ -96,9 +105,9 @@ const Setting = ({navigation}) => {
                           style={styles.textInput}
                           onChangeText={handleChange('user_name')}
                           onBlur={handleBlur('user_name')}
-                          value={profile.user_name}
+                          value={values.user_name}
                         />
-                        {errors.user_name && (
+                        {errors.user_name && touched.user_name && (
                           <Text style={styles.textError}>
                             {errors.user_name}
                           </Text>
@@ -115,9 +124,9 @@ const Setting = ({navigation}) => {
                           style={styles.textInput}
                           onChangeText={handleChange('birth')}
                           onBlur={handleBlur('birth')}
-                          value={profile.birth}
+                          value={values.birth}
                         />
-                        {errors.birth && (
+                        {errors.birth && touched.birth && (
                           <Text style={styles.textError}>{errors.birth}</Text>
                         )}
                       </Body>

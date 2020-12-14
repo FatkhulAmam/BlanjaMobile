@@ -10,6 +10,7 @@ import {
 import {Header, Body, Text, Right, Button, Card, CardItem} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {API_URL} from '@env';
 import ImagePicker from 'react-native-image-picker';
 import {editAvatar} from '../../redux/actions/profile';
 
@@ -48,7 +49,9 @@ const Profile = ({navigation}) => {
   const profileIndex = useSelector((state) => state.profile);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  const [AvatarSource, setAvatarSource] = useState('');
+  const [AvatarSource, setAvatarSource] = useState(
+    profile.photo ? {uri: `${API_URL}${profile.photo}`} : Avatar,
+  );
 
   const takePictures = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -100,10 +103,7 @@ const Profile = ({navigation}) => {
         <Text style={styles.tittle}>My Profile</Text>
         <View style={styles.userBio}>
           <TouchableOpacity onPress={takePictures}>
-            <Image
-              style={styles.avatar}
-              source={AvatarSource !== '' ? {uri: AvatarSource} : Avatar}
-            />
+            <Image style={styles.avatar} source={AvatarSource} />
           </TouchableOpacity>
           <View style={styles.identity}>
             <Text style={styles.name}>{profile.user_name}</Text>
@@ -132,7 +132,7 @@ const Profile = ({navigation}) => {
                 <Body style={styles.card}>
                   <View>
                     <Text>Shipping Address</Text>
-                    <Text note>3 Address</Text>
+                    <Text note>My Address</Text>
                   </View>
                   <Right />
                   <Icon name="angle-right" size={22} color="#8f8f8f" />
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   userBio: {
     flexDirection: 'row',
     marginTop: 25,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   avatar: {
     width: 100,
