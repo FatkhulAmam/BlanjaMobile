@@ -26,7 +26,7 @@ const Catalog = ({navigation, route}) => {
     dispatch(getProductCategory(route.params));
   }, [dispatch, route.params]);
 
-  const {isLoading, allData, isError} = product;
+  const {isLoading, allData, isError, message} = product;
   return (
     <>
       <Header style={styles.header} noLeft transparent>
@@ -69,24 +69,23 @@ const Catalog = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        {!isLoading &&
-          !isError &&
+        {isLoading === false &&
           allData.length !== 0 &&
           allData.map((item) => {
             return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('DetailProduct', item.id)}>
-                <View style={styles.parent}>
-                  <View style={styles.CardProduct}>
+              <View style={styles.parent}>
+                <View style={styles.CardProduct}>
+                  <TouchableOpacity
+                    onPress={
+                      (() => navigation.navigate('DetailProduct'), item.id)
+                    }>
                     <Card transparent>
                       <CardItem style={styles.cardItem}>
                         <Body>
                           <Image
                             style={styles.productImg}
                             source={
-                              item.url !== ''
-                                ? {uri: `${API_URL}${item.url}`}
-                                : photo
+                              item.url ? {uri: `${API_URL}${item.url}`} : photo
                             }
                           />
                           <View style={styles.star}>
@@ -102,11 +101,40 @@ const Catalog = ({navigation, route}) => {
                         </Body>
                       </CardItem>
                     </Card>
-                  </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={
+                      (() => navigation.navigate('DetailProduct'), item.id)
+                    }>
+                    <Card transparent>
+                      <CardItem style={styles.cardItem}>
+                        <Body>
+                          <Image
+                            style={styles.productImg}
+                            source={
+                              item.url ? {uri: `${API_URL}${item.url}`} : photo
+                            }
+                          />
+                          <View style={styles.star}>
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                            <Icon name="star-o" size={18} />
+                          </View>
+                          <Text style={styles.name}>{item.name}</Text>
+                          <Text note>{item.category_name}</Text>
+                          <Text style={styles.price}>Rp. {item.price}</Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
             );
           })}
+        {isLoading === true && isError === false && <Text>Loading</Text>}
+        {isError === true && message !== '' && <Text>{message}</Text>}
       </ScrollView>
       <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
         <View style={styles.border} />
@@ -145,9 +173,10 @@ const styles = StyleSheet.create({
   },
   parent: {
     backgroundColor: '#fafafa',
+    width: 'auto',
   },
   productImg: {
-    width: 170,
+    width: 150,
     height: 200,
   },
   star: {
@@ -167,7 +196,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   cardItem: {
-    width: 175,
+    width: 170,
     backgroundColor: '#fafafa',
   },
   CardProduct: {
