@@ -55,6 +55,30 @@ export default (state = initialState, action) => {
         message: 'edit profile success',
       };
     }
+    // edit Avatar
+    case 'EDIT_AVA_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case 'EDIT_AVA_REJECTED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        message: 'cannot edit avatar',
+      };
+    }
+    case 'EDIT_AVA_FULFILLED': {
+      return {
+        ...state,
+        isError: false,
+        isEdit: true,
+        isLoading: false,
+        message: 'edit avatar success',
+      };
+    }
     case 'CLEAR_MESSAGE': {
       return {
         ...state,

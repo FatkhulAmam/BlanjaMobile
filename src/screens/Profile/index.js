@@ -11,6 +11,7 @@ import {Header, Body, Text, Right, Button, Card, CardItem} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
+import {editAvatar} from '../../redux/actions/profile';
 
 import Avatar from '../../assets/images/avatar.png';
 const options = {
@@ -34,9 +35,18 @@ const showToastSize = () => {
     ToastAndroid.CENTER,
   );
 };
+const updateFull = () => {
+  ToastAndroid.showWithGravity(
+    'image update !',
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  );
+};
 
 const Profile = ({navigation}) => {
   const profile = useSelector((state) => state.profile.result[0]);
+  const profileIndex = useSelector((state) => state.profile);
+  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const [AvatarSource, setAvatarSource] = useState('');
 
@@ -62,6 +72,10 @@ const Profile = ({navigation}) => {
               name: response.fileName,
               type: response.type,
             });
+            dispatch(editAvatar(token, form));
+            if (profileIndex.isError === false) {
+              updateFull();
+            }
           } else {
             showToastImg();
           }

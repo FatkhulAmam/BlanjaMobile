@@ -11,4 +11,9 @@ const editProfile = (token, user_name, birth) => ({
   payload: http(token).patch('user', qs.stringify({user_name, birth})),
 });
 
-export {getProfile, editProfile};
+const editAvatar = (token, form) => ({
+  type: 'EDIT_AVA',
+  payload: http(token).patch('user/avatar', form),
+});
+
+export {getProfile, editProfile, editAvatar};
