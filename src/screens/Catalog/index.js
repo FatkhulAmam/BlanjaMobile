@@ -26,7 +26,14 @@ const Catalog = ({navigation, route}) => {
     dispatch(getProductCategory(route.params));
   }, [dispatch, route.params]);
 
-  const {isLoading, allData, isError, message} = product;
+  const {
+    isLoading,
+    allData,
+    isError,
+    message,
+    dataCategory,
+    isCatDet,
+  } = product;
   return (
     <>
       <Header style={styles.header} noLeft transparent>
@@ -70,14 +77,16 @@ const Catalog = ({navigation, route}) => {
       </View>
       <ScrollView>
         {isLoading === false &&
-          allData.length !== 0 &&
-          allData.map((item) => {
+          (isCatDet === true
+            ? dataCategory.length !== 0
+            : allData.length !== 0) &&
+          (isCatDet === true ? dataCategory : allData).map((item) => {
             return (
-              <View style={styles.parent}>
+              <View style={styles.parent} key={item.id}>
                 <View style={styles.CardProduct}>
                   <TouchableOpacity
-                    onPress={
-                      (() => navigation.navigate('DetailProduct'), item.id)
+                    onPress={() =>
+                      navigation.navigate('DetailProduct', item.id)
                     }>
                     <Card transparent>
                       <CardItem style={styles.cardItem}>
@@ -103,8 +112,8 @@ const Catalog = ({navigation, route}) => {
                     </Card>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={
-                      (() => navigation.navigate('DetailProduct'), item.id)
+                    onPress={() =>
+                      navigation.navigate('DetailProduct', item.id)
                     }>
                     <Card transparent>
                       <CardItem style={styles.cardItem}>

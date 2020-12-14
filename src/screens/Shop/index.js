@@ -1,28 +1,11 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, View, FlatList, StatusBar} from 'react-native';
 import {Text, Header, Left, Body, Right, Button, Title} from 'native-base';
 import {connect} from 'react-redux';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getCategory, getProductCategory} from '../../redux/actions/product';
-
-class Item extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.movePage}>
-        <View style={styles.renderParent}>
-          <Text style={styles.renderText}>{this.props.category}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+import Item from '../../components/categoryItem';
 
 class Shop extends React.Component {
   componentDidMount() {
@@ -53,7 +36,7 @@ class Shop extends React.Component {
         </Header>
         <View style={styles.parent}>
           <Button
-            onPress={() => this.props.navigation.navigate('Catalog')}
+            onPress={() => this.props.navigation.navigate('Catalog', '')}
             style={styles.btnAll}
             block>
             <Text style={styles.btntext}>VIEW ALL ITEM</Text>
@@ -92,14 +75,6 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(Shop);
 
 const styles = StyleSheet.create({
-  renderParent: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderColor: '#e8e8e8',
-  },
-  renderText: {
-    fontSize: 20,
-  },
   header: {
     backgroundColor: '#FFFFFF',
   },
