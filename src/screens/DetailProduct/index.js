@@ -18,6 +18,7 @@ import {getDetailProduct, addToCart} from '../../redux/actions/product';
 
 import photo from '../../assets/images/photo.png';
 import CardProdct from '../../components/cardProduct';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const DetailProduct = ({route}) => {
   const navigation = useNavigation();
@@ -56,89 +57,97 @@ const DetailProduct = ({route}) => {
         </Button>
       </Header>
       <ScrollView nestedScrollEnabled={true}>
-        <View>
-          <ScrollView horizontal>
-            <Image
-              style={styles.productImage}
-              source={{uri: `${API_URL}${detail.url}`}}
-            />
-          </ScrollView>
-          <View style={styles.descProduct}>
-            <View>
-              <ScrollView nestedScrollEnabled={true}>
-                <View style={styles.descHead}>
-                  <View>
-                    <Text>Colors</Text>
-                    <View style={styles.sz}>
-                      <TouchableOpacity style={styles.btnColor} />
-                    </View>
-                  </View>
-                  <Right />
-                  <View>
-                    <Text>Size</Text>
-                    <View style={styles.btnCount}>
-                      <TouchableOpacity style={styles.btn} onPress={onPressDec}>
-                        <Icon name="minus" size={15} color="#8f8f8f" />
-                      </TouchableOpacity>
-                      <Text style={styles.counter}>{count}</Text>
-                      <TouchableOpacity style={styles.btn} onPress={onPressInc}>
-                        <Icon name="plus" size={15} color="#8f8f8f" />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.productDetail}>
-                  <Text style={styles.merk}>Nama Toko</Text>
-                  <Left />
-                  <Text style={styles.price}>{detail.price}</Text>
-                </View>
-                <Text note>{detail.category}</Text>
-                <View style={styles.star}>
-                  <Icon name="star-o" size={18} />
-                  <Icon name="star-o" size={18} />
-                  <Icon name="star-o" size={18} />
-                  <Icon name="star-o" size={18} />
-                  <Icon name="star-o" size={18} />
-                </View>
-                <Text>{detail.description}</Text>
-              </ScrollView>
-            </View>
-          </View>
-          <View style={styles.footer}>
-            <Button style={styles.btnCart} block onPress={addProduct}>
-              <Text>add to cart</Text>
-            </Button>
-            <View>
-              <TouchableOpacity
-                style={styles.AddRatting}
-                onPress={() => navigation.navigate('RatingReview')}>
-                <Text>Add Ratting</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.border} />
-            <Text note>Sleeves wirh a small trill trim</Text>
-            <View style={styles.title}>
-              <Text style={styles.like}>You Can Also Like This</Text>
-              <Left />
-              <Text note>12 item</Text>
-            </View>
-          </View>
-          <FlatList
-            horizontal
-            data={product.data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <CardProdct
-                image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
-                date={item.input_date}
-                category={item.category_name}
-                name={item.name}
-                price={item.price}
-                movePage={() => navigation.navigate('DetailProduct')}
+        {product.isLoading === false ? (
+          <View>
+            <ScrollView horizontal>
+              <Image
+                style={styles.productImage}
+                source={{uri: `${API_URL}${detail.url}`}}
               />
-            )}
-          />
-        </View>
+            </ScrollView>
+            <View style={styles.descProduct}>
+              <View>
+                <ScrollView nestedScrollEnabled={true}>
+                  <View style={styles.descHead}>
+                    <View>
+                      <Text>Colors</Text>
+                      <View style={styles.sz}>
+                        <TouchableOpacity style={styles.btnColor} />
+                      </View>
+                    </View>
+                    <Right />
+                    <View>
+                      <Text>Size</Text>
+                      <View style={styles.btnCount}>
+                        <TouchableOpacity
+                          style={styles.btn}
+                          onPress={onPressDec}>
+                          <Icon name="minus" size={15} color="#8f8f8f" />
+                        </TouchableOpacity>
+                        <Text style={styles.counter}>{count}</Text>
+                        <TouchableOpacity
+                          style={styles.btn}
+                          onPress={onPressInc}>
+                          <Icon name="plus" size={15} color="#8f8f8f" />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.productDetail}>
+                    <Text style={styles.merk}>Nama Toko</Text>
+                    <Left />
+                    <Text style={styles.price}>{detail.price}</Text>
+                  </View>
+                  <Text note>{detail.category}</Text>
+                  <View style={styles.star}>
+                    <Icon name="star-o" size={18} />
+                    <Icon name="star-o" size={18} />
+                    <Icon name="star-o" size={18} />
+                    <Icon name="star-o" size={18} />
+                    <Icon name="star-o" size={18} />
+                  </View>
+                  <Text>{detail.description}</Text>
+                </ScrollView>
+              </View>
+            </View>
+            <View style={styles.footer}>
+              <Button style={styles.btnCart} block onPress={addProduct}>
+                <Text>add to cart</Text>
+              </Button>
+              <View>
+                <TouchableOpacity
+                  style={styles.AddRatting}
+                  onPress={() => navigation.navigate('RatingReview')}>
+                  <Text>Add Ratting</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.border} />
+              <Text note>Sleeves wirh a small trill trim</Text>
+              <View style={styles.title}>
+                <Text style={styles.like}>You Can Also Like This</Text>
+                <Left />
+                <Text note>12 item</Text>
+              </View>
+            </View>
+            <FlatList
+              horizontal
+              data={product.data}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item, index}) => (
+                <CardProdct
+                  image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
+                  date={item.input_date}
+                  category={item.category_name}
+                  name={item.name}
+                  price={item.price}
+                  movePage={() => navigation.navigate('DetailProduct')}
+                />
+              )}
+            />
+          </View>
+        ) : (
+          <LoadingIndicator />
+        )}
       </ScrollView>
     </>
   );

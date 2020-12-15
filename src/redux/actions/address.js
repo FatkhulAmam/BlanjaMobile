@@ -7,7 +7,7 @@ const getAddressAction = (token, data) => ({
 });
 
 const getAddressIdAction = (token, id) => ({
-  type: 'ADDRESS_ID',
+  type: 'GET_ADDRESS',
   payload: http(token).get(`user/address/${id}`),
 });
 

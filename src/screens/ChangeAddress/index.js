@@ -41,7 +41,7 @@ const ChangeAddress = ({navigation, route}) => {
   }, [dispatch, token, route.params]);
 
   const token = useSelector((state) => state.auth.token);
-  const addressData = useSelector((state) => state.address.dataAddressById[0]);
+  const addressData = useSelector((state) => state.address.dataAddress[0]);
   const addressIndex = useSelector((state) => state.address);
 
   const onUpdateAddress = async (data) => {

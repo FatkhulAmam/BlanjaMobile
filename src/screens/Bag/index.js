@@ -10,12 +10,13 @@ import {showMyCart} from '../../redux/actions/product';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
 import CardProduct from '../../components/cardBag';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const Bag = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  const detailCart = useSelector((state) => state.cart.data);
+  const detail = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(showMyCart(token));
@@ -33,20 +34,24 @@ const Bag = () => {
       </Header>
       <Text style={styles.tittle}>My Bag</Text>
       <View style={styles.parent}>
-        <FlatList
-          style={styles.flat}
-          data={detailCart}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => (
-            <CardProduct
-              image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
-              name={item.name}
-              price={item.price}
-              amount={item.amount}
-              id={item.id}
-            />
-          )}
-        />
+        {detail.isLoading === false ? (
+          <FlatList
+            style={styles.flat}
+            data={detail.data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => (
+              <CardProduct
+                image={item.url ? {uri: `${API_URL}${item.url}`} : photo}
+                name={item.name}
+                price={item.price}
+                amount={item.amount}
+                id={item.id}
+              />
+            )}
+          />
+        ) : (
+          <LoadingIndicator />
+        )}
       </View>
       <View style={styles.btnCheck}>
         <View style={styles.amount}>

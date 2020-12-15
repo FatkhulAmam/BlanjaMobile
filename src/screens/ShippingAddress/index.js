@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {getAddressAction} from '../../redux/actions/address';
 import CardAddress from '../../components/CardAddress';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const ShippingAddress = ({navigation}) => {
   const token = useSelector((state) => state.auth.token);
@@ -36,20 +37,24 @@ const ShippingAddress = ({navigation}) => {
           <Text style={styles.textPass}>Shipping Address</Text>
         </View>
         <View>
-          <FlatList
-            data={address.dataAddress}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => (
-              <CardAddress
-                name={item.recipients_name}
-                home={item.home}
-                city={item.city}
-                phone={item.recipients_phone}
-                address={item.address}
-                movePage={() => navigation.navigate('ChangeAddress', item.id)}
-              />
-            )}
-          />
+          {address.isLoading === false ? (
+            <FlatList
+              data={address.dataAddress}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item, index}) => (
+                <CardAddress
+                  name={item.recipients_name}
+                  home={item.home}
+                  city={item.city}
+                  phone={item.recipients_phone}
+                  address={item.address}
+                  movePage={() => navigation.navigate('ChangeAddress', item.id)}
+                />
+              )}
+            />
+          ) : (
+            <LoadingIndicator />
+          )}
         </View>
         <Button
           style={styles.btn}

@@ -17,6 +17,7 @@ const actionSheetRef = createRef();
 import Icon from 'react-native-vector-icons/FontAwesome';
 import photo from '../../assets/images/photo.png';
 import {getProductCategory, getSortProduct} from '../../redux/actions/product';
+import LoadingIndicator from '../../components/ModalLoading';
 
 const Catalog = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -39,14 +40,7 @@ const Catalog = ({navigation, route}) => {
     navigation.navigate('Catalog');
   };
 
-  const {
-    isLoading,
-    allData,
-    isError,
-    message,
-    dataCategory,
-    isCatDet,
-  } = product;
+  const {isLoading, allData, isError, message, dataCategory} = product;
   return (
     <>
       <Header style={styles.header} noLeft transparent>
@@ -59,7 +53,9 @@ const Catalog = ({navigation, route}) => {
           />
         </Button>
         <Body>
-          <Title style={styles.text}>Women's Top</Title>
+          <Title style={styles.text}>
+            {dataCategory !== '' ? dataCategory[0].category_name : 'All Poduct'}
+          </Title>
         </Body>
         <Button transparent onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={22} />
@@ -90,10 +86,10 @@ const Catalog = ({navigation, route}) => {
       </View>
       <ScrollView>
         {isLoading === false &&
-          (isCatDet === true
+          (dataCategory !== ''
             ? dataCategory.length !== 0
             : allData.length !== 0) &&
-          (isCatDet === true ? dataCategory : allData).map((item) => {
+          (dataCategory !== '' ? dataCategory : allData).map((item) => {
             return (
               <View style={styles.parent} key={item.id}>
                 <View style={styles.CardProduct}>
@@ -155,7 +151,7 @@ const Catalog = ({navigation, route}) => {
               </View>
             );
           })}
-        {isLoading === true && isError === false && <Text>Loading</Text>}
+        {isLoading === true && isError === false && <LoadingIndicator />}
         {isError === true && message !== '' && <Text>{message}</Text>}
       </ScrollView>
       <ActionSheet styles={styles.actionSheet} ref={actionSheetRef}>
