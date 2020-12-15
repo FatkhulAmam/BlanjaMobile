@@ -169,7 +169,7 @@ const ChangeAddress = ({navigation, route}) => {
                           name="recipients_phone"
                           placeholder="recipients_phone"
                           style={styles.textInput}
-                          onChangeText={handleChange('phrecipients_phoneone')}
+                          onChangeText={handleChange('recipients_phone')}
                           onBlur={handleBlur('recipients_phone')}
                           value={values.recipients_phone}
                         />
