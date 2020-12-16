@@ -13,4 +13,4 @@ just click link in bellow
 
 ## Application view
 
-![Landing page](src/assets/images/landingPage.jpg)
+<img src="src/assets/images/landingPage.jpg" width="250"/>
